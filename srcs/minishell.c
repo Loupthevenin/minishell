@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:01:37 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/06 14:12:50 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:31:06 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,20 @@
 
 int	main(int argc, char **argv, char **env)
 {
+	char	*input;
+
 	(void)argc;
 	(void)argv;
 	(void)env;
-	ft_printf("Hello world!\n");
+	while (1)
+	{
+		input = readline("minishell> ");
+		if (!input)
+		{
+			printf("exit\n");
+			break ;
+		}
+		free(input);
+	}
 	return (0);
 }
