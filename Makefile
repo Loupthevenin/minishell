@@ -6,7 +6,7 @@
 #    By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 13:57:18 by ltheveni          #+#    #+#              #
-#    Updated: 2025/01/06 14:11:12 by ltheveni         ###   ########.fr        #
+#    Updated: 2025/01/06 15:26:22 by ltheveni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ _WHITE	= \033[37m
 _END	= \033[0m
 
 NAME = minishell
+LIBFT = libft
 SRC_DIR = srcs/
 OBJ_DIR = objs/
 LIB_DIR = libft
@@ -30,9 +31,9 @@ LIB_DIR = libft
 SHELL = /bin/bash
 CC = gcc
 
-INCLUDE = -I includes
+INCLUDE = -I includes -I /usr/include/readline
 CFLAGS = -Wall -Werror -Wextra
-LIBFLAGS = -L $(LIB_DIR) -lft
+LIBFLAGS = -L $(LIB_DIR) -lft -L /usr/lib -lreadline
 RM = rm -rf
 DEBUG_FLAGS = -g3
 
