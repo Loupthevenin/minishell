@@ -1,34 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/06 14:02:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/07 15:17:42 by ltheveni         ###   ########.fr       */
+/*   Created: 2025/01/07 15:05:14 by ltheveni          #+#    #+#             */
+/*   Updated: 2025/01/07 16:00:16 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "../../includes/minishell.h"
 
-# include "ft_printf.h"
-# include "libft.h"
-# include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <sys/wait.h>
-
-typedef struct s_cmd
+void	free_cmd_node(t_cmd *head)
 {
-	char			**args;
-	char			*infile;
-	char			*outfile;
-	char			*append;
-	struct s_cmd	*next;
-}					t_cmd;
+	t_cmd	*temp;
+	int		i;
 
-t_cmd				*parse_input(char *input);
-void				exec_cmd(t_cmd *cmd);
-#endif
+	while (head)
+	{
+		temp = head;
+		head = head->next;
+		i = 0;
+		while (temp->args[i])
+			free(temp->args[i]);
+		free(temp->args);
+		if (temp->infile)
+			free(temp->infile);
+		if (temp->outfile)
+			free(temp->outfile);
+		if (temp->append)
+			free(temp->append);
+		free(temp);
+	}
+}
