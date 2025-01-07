@@ -6,9 +6,11 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:01:37 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/08 00:24:45 by kleung-t         ###   ########.fr       */
+/*   Updated: 2025/01/08 00:26:27 by kleung-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+//compile : gcc minishell.c -lreadline
 
 #include "../includes/minishell.h"
 #include "./parsing/parser.c"
