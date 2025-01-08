@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_cmd.c                                         :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/07 14:06:28 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/08 12:03:07 by ltheveni         ###   ########.fr       */
+/*   Created: 2025/01/08 11:15:56 by ltheveni          #+#    #+#             */
+/*   Updated: 2025/01/08 11:17:54 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	wait_for_children(t_cmd *cmd)
+void	free_tab(char **tabs)
 {
-	t_cmd	*current;
+	int	i;
 
-	current = cmd;
-	while (current)
+	if (!tabs)
+		return ;
+	i = 0;
+	while (tabs[i])
 	{
-		wait(NULL);
-		current = current->next;
+		free(tabs[i]);
+		i++;
 	}
-}
-
-void	exec_cmd(t_cmd *cmd, char **envp)
-{
-	fork_processes(cmd, envp);
-	wait_for_children(cmd);
+	free(tabs);
 }

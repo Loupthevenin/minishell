@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:02:48 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/08 00:22:53 by kleung-t         ###   ########.fr       */
+/*   Updated: 2025/01/08 15:01:14 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 t_cmd	*parse_input(char *input);
 
-//if space
-int    ft_sp(char c)
+// if space
+int	ft_sp(char c)
 {
-        if ((c >= 7 && c <= 13) || c == 32 || c == 0)
-                return (1);
-        else
-                return (0);
+	if ((c >= 7 && c <= 13) || c == 32 || c == 0)
+		return (1);
+	else
+		return (0);
 }
 
-//create argument
+// create argument
 char	*cr_arg(const char *s, int j)
 {
-	int	i;
-	int	len;
+	int		i;
+	int		len;
 	char	*str;
 
 	i = 0;
@@ -47,7 +47,7 @@ char	*cr_arg(const char *s, int j)
 	return (str);
 }
 
-//counts arguments
+// counts arguments
 int	ft_count(const char *s)
 {
 	int	i;
@@ -67,9 +67,9 @@ int	ft_count(const char *s)
 
 char	*split_arg(char *s)
 {
-	int	i;
-	int	j;
-	int	nb;
+	int		i;
+	int		j;
+	int		nb;
 	char	**substr;
 	t_cmd	*cmd;
 
@@ -79,13 +79,13 @@ char	*split_arg(char *s)
 	substr = malloc(sizeof(char *) * nb + 1);
 	cmd = malloc(sizeof(t_cmd));
 	if (!substr)
-		return(NULL);
+		return (NULL);
 	while (i < nb && s[j])
 	{
 		if (!ft_sp(s[j]))
 		{
 			cmd->args = cr_arg(s, j);
-			while(!ft_sp(s[j]))
+			while (!ft_sp(s[j]))
 				j++;
 		}
 		while (ft_sp(s[j]))
