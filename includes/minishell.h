@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:02:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/07 15:17:42 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/08 11:50:42 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,18 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
+// utils
+void				free_tab(char **tabs);
+void				free_cmd_node(t_cmd *head);
+
+// Parsing
+
+// exec
+char				*get_cmd_path(const char *cmd, char **envp);
+void				process(t_cmd *cmd, char **envp);
+void				fork_processes(t_cmd *cmd, char **envp);
+
+// main
 t_cmd				*parse_input(char *input);
-void				exec_cmd(t_cmd *cmd);
+void				exec_cmd(t_cmd *cmd, char **envp);
 #endif
