@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:05:14 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/08 15:32:36 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/08 15:37:22 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	append_node(t_cmd **head, t_cmd *new_node)
 {
 	t_cmd	*temp;
 
+	if (!head || !new_node)
+		return ;
 	if (!*head)
 	{
 		*head = new_node;
