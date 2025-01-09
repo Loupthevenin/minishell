@@ -1,32 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process.c                                          :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/08 11:39:41 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/09 18:01:53 by ltheveni         ###   ########.fr       */
+/*   Created: 2025/01/09 18:09:57 by ltheveni          #+#    #+#             */
+/*   Updated: 2025/01/09 18:11:59 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../includes/libft.h"
 
-void	process(t_cmd *cmd, char **envp)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	char	*cmd_path;
+	int	i;
 
-	cmd_path = get_cmd_path(cmd->args[0], envp);
-	if (!cmd_path)
-	{
-		ft_putstr_fd(cmd->args[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-		free_tab(cmd->args);
-		exit(127);
-	}
-	execve(cmd_path, cmd->args, envp);
-	perror("execve");
-	free(cmd_path);
-	free_tab(cmd->args);
-	exit(EXIT_FAILURE);
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return (s1[i] - s2[i]);
 }
