@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:02:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/08 11:50:42 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/09 09:21:42 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ typedef struct s_cmd
 }					t_cmd;
 
 // utils
+t_cmd				*create_node(char **args);
+void				append_node(t_cmd **head, t_cmd *new_node);
 void				free_tab(char **tabs);
 void				free_cmd_node(t_cmd *head);
 
