@@ -6,13 +6,13 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:06:28 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/08 12:03:07 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/09 17:45:02 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	wait_for_children(t_cmd *cmd)
+static void	wait_for_children(t_cmd *cmd)
 {
 	t_cmd	*current;
 
