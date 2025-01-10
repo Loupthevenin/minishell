@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:05:14 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/09 18:52:36 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/10 10:21:57 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,10 @@ void	free_cmd_node(t_cmd *head)
 		head = head->next;
 		i = 0;
 		while (temp->args[i])
+		{
 			free(temp->args[i]);
+			i++;
+		}
 		free(temp->args);
 		if (temp->infile >= 0)
 			close(temp->infile);
