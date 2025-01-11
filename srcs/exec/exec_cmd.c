@@ -6,11 +6,19 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:06:28 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/11 12:06:43 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/11 15:17:41 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static void	handle_pipes_error(t_cmd *cmd, t_shell *shell, int i)
+{
+	perror("pipe");
+	free_cmd_node(cmd);
+	free_tab((void **)shell->pipefd, i + 1, 0);
+	exit(EXIT_FAILURE);
+}
 
 static void	wait_for_children(t_cmd *cmd)
 {
@@ -26,26 +34,24 @@ static void	wait_for_children(t_cmd *cmd)
 
 static void	create_pipes(t_cmd *cmd, t_shell *shell)
 {
-	t_cmd	*current;
-	int		i;
+	int	i;
 
-	current = cmd;
 	shell->n_pipes = get_command_count(cmd) - 1;
 	shell->pipefd = malloc(sizeof(int *) * shell->n_pipes);
 	if (!shell->pipefd)
 	{
 		perror("malloc");
+		free_cmd_node(cmd);
 		exit(EXIT_FAILURE);
 	}
 	i = 0;
 	while (i < shell->n_pipes)
 	{
 		shell->pipefd[i] = malloc(sizeof(int) * 2);
+		if (!shell->pipefd[i])
+			handle_pipes_error(cmd, shell, i);
 		if (pipe(shell->pipefd[i]) == -1)
-		{
-			perror("pipe");
-			exit(EXIT_FAILURE);
-		}
+			handle_pipes_error(cmd, shell, i);
 		i++;
 	}
 }
@@ -54,7 +60,10 @@ void	exec_cmd(t_cmd *cmd, t_shell *shell)
 {
 	create_pipes(cmd, shell);
 	fork_processes(cmd, shell);
+	if (cmd->infile >= 0)
+		close(cmd->infile);
+	if (cmd->outfile >= 0)
+		close(cmd->outfile);
 	close_pipes(shell->pipefd, shell->n_pipes);
-	// close infile outfile;
 	wait_for_children(cmd);
 }
