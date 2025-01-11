@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:38:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/11 12:06:00 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/11 15:21:39 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@
 /* 	return (0); */
 /* } */
 
+static void	handle_fork_error(t_cmd *cmd, t_shell *shell)
+{
+	perror("fork");
+	free_cmd_node(cmd);
+	free_tab((void **)shell->pipefd, shell->n_pipes, 0);
+	exit(EXIT_FAILURE);
+}
+
 void	fork_processes(t_cmd *cmd, t_shell *shell)
 {
 	t_cmd	*current;
@@ -48,10 +56,7 @@ void	fork_processes(t_cmd *cmd, t_shell *shell)
 		/* } */
 		shell->pid = fork();
 		if (shell->pid == -1)
-		{
-			perror("fork");
-			exit(EXIT_FAILURE);
-		}
+			handle_fork_error(cmd, shell);
 		if (shell->pid == 0)
 		{
 			redirect(i, cmd, shell);
