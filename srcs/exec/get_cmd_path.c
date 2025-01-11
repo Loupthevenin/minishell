@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:43:33 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/08 11:44:00 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/11 11:22:14 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,13 @@ static char	*loop_dirs(char **dirs, const char *cmd)
 		}
 		if (access(full_path, X_OK) == 0)
 		{
-			free_tab(dirs);
+			free_tab((void **)dirs, 0, 1);
 			return (full_path);
 		}
 		free(full_path);
 		i++;
 	}
-	free_tab(dirs);
+	free_tab((void **)dirs, 0, 1);
 	return (NULL);
 }
 

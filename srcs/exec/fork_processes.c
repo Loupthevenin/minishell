@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:38:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/09 18:26:04 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/11 12:06:00 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,13 @@
 /* 	return (0); */
 /* } */
 
-void	fork_processes(t_cmd *cmd, char **envp)
+void	fork_processes(t_cmd *cmd, t_shell *shell)
 {
-	pid_t	pid;
 	t_cmd	*current;
+	int		i;
 
 	current = cmd;
+	i = 0;
 	while (current)
 	{
 		/* if (is_builtins(current)) */
@@ -45,17 +46,19 @@ void	fork_processes(t_cmd *cmd, char **envp)
 		/* 	current = current->next; */
 		/* 	continue ; */
 		/* } */
-		pid = fork();
-		if (pid == -1)
+		shell->pid = fork();
+		if (shell->pid == -1)
 		{
 			perror("fork");
 			exit(EXIT_FAILURE);
 		}
-		if (pid == 0)
+		if (shell->pid == 0)
 		{
-			process(cmd, envp);
+			redirect(i, cmd, shell);
+			process(cmd, shell);
 			exit(EXIT_SUCCESS);
 		}
 		current = current->next;
+		i++;
 	}
 }
