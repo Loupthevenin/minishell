@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:38:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/11 15:21:39 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/12 18:51:31 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	fork_processes(t_cmd *cmd, t_shell *shell)
 		if (shell->pid == 0)
 		{
 			redirect(i, cmd, shell);
+			setup_signals(0);
 			process(cmd, shell);
 			exit(EXIT_SUCCESS);
 		}

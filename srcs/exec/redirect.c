@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 11:29:21 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/11 15:56:35 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/12 10:01:26 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,12 @@ static void	redirect_output(int outfile)
 
 static void	zero_pipe(t_cmd *cmd, t_shell *shell)
 {
+	(void)shell;
 	redirect_input(cmd->infile);
 	if (cmd->outfile == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
-		// ajouter le nom du fichier Permission denied;
+		ft_putstr_fd(cmd->path_outfile, 2);
 		ft_putstr_fd(": Permission denied\n", 2);
 		free_cmd_node(cmd);
 		exit(126);
@@ -73,7 +74,7 @@ static void	n_pipes(t_cmd *cmd, t_shell *shell, int i)
 		if (cmd->outfile == -1)
 		{
 			ft_putstr_fd("minishell: ", 2);
-			// ajouter le nom du fichier Permission denied;
+			ft_putstr_fd(cmd->path_outfile, 2);
 			ft_putstr_fd(": Permission denied\n", 2);
 			free_cmd_node(cmd);
 			free_tab((void **)shell->pipefd, i + 1, 0);

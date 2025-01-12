@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:01:37 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/11 15:23:51 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/12 19:55:55 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	init_shell(t_shell *shell, char **envp)
 	shell->env = envp;
 	shell->pid = -1;
 	shell->n_pipes = 0;
+	shell->last_exit = 0;
 }
 
 static void	clean_shell(t_cmd *cmd, t_shell *shell)
@@ -38,6 +39,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	init_shell(&shell, envp);
+	setup_signals(1);
 	while (1)
 	{
 		input = readline("minishell> ");

@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:02:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/11 11:30:25 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/12 19:55:41 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,16 @@
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <sys/wait.h>
 
 typedef struct s_cmd
 {
 	char			**args;
 	int				infile;
+	char			*path_infile;
 	int				outfile;
+	char			*path_outfile;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -34,6 +37,7 @@ typedef struct s_shell
 	int				**pipefd;
 	pid_t			pid;
 	int				n_pipes;
+	int				last_exit;
 }					t_shell;
 
 // utils
@@ -63,6 +67,7 @@ void				builtin_env(char **args);
 void				builtin_exit(char **args);
 
 // main
+void				setup_signals(int is_parent);
 t_cmd				*parse_input(char *input);
 void				exec_cmd(t_cmd *cmd, t_shell *shell);
 #endif
