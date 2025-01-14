@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:02:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/12 19:55:41 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/14 09:55:55 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void				free_cmd_node(t_cmd *head);
 void				close_pipes(int **pipes, int n);
 
 // parsing
+int					ft_op(const char *s);
 
 // exec
 void				fork_processes(t_cmd *cmd, t_shell *shell);
