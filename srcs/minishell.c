@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:01:37 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/12 19:55:55 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/14 02:42:38 by kleung-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,15 @@ static void	clean_shell(t_cmd *cmd, t_shell *shell)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*input;
-	t_cmd	*cmd;
+	char		*input;
+	t_cmd		**args;
+	t_cmd		*cmd;
 	t_shell	shell;
+	t_token	**token;
+	int		i;
+	int		j;
 
+	i = 0;
 	(void)argc;
 	(void)argv;
 	init_shell(&shell, envp);
@@ -49,7 +54,14 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 		// cmd = parse_input(input);
-		split_arg(input);
+		t_cmd->args = split_input(input);
+		while (t_cmd->args[i])
+		{
+			t_token->token = split_arg(t_cmd->args[i++]);
+			j = 0;
+			while (t_token->token[j])
+				printf("token %d : [%s]\n", j, t_token->token[j++]);
+		}
 		// exec_cmd(cmd, shell);
 		free(input);
 	}
