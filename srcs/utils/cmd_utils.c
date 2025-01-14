@@ -6,13 +6,13 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:05:14 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/10 10:21:57 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/13 15:53:22 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// ici on cree une node;
+// ici on cree une node; termine ca
 t_cmd	*create_node(char **args)
 {
 	t_cmd	*new_node;
