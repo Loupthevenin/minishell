@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:02:48 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/14 10:58:43 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/14 11:05:00 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ t_cmd	*parse_input(char *input)
 	head = NULL;
 	while (args[i])
 	{
+		// ici changer le split par le split qui vire les isspaces
 		new_node = create_node(ft_split(args[i++], ' '));
 		if (!new_node)
 		{
