@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:01:37 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/15 10:42:36 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/15 15:04:44 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,12 @@
 
 static void	init_shell(t_shell *shell, char **envp)
 {
-	shell->env = envp;
+	if (envp)
+		shell->env_list = double_array_to_list(envp);
+	else
+	{
+	}
+	shell->pipefd = NULL;
 	shell->pid = -1;
 	shell->n_pipes = 0;
 	shell->last_exit = 0;
@@ -27,7 +32,6 @@ static void	clean_shell(t_cmd *cmd, t_shell *shell)
 	free_cmd_node(cmd);
 	free_tab((void **)shell->pipefd, shell->n_pipes, 0);
 	rl_clear_history();
-	/* free_tab((void **)shell->env, 0, 1); */
 }
 
 int	main(int argc, char **argv, char **envp)

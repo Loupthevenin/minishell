@@ -6,13 +6,13 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:05:14 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/13 15:53:22 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/15 11:28:07 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// ici on cree une node; termine ca
+// ici on cree une node;
 t_cmd	*create_node(char **args)
 {
 	t_cmd	*new_node;
@@ -24,7 +24,9 @@ t_cmd	*create_node(char **args)
 	}
 	new_node->args = args;
 	new_node->infile = STDIN_FILENO;
+	new_node->path_infile = "/dev/stdin";
 	new_node->outfile = STDOUT_FILENO;
+	new_node->path_outfile = "/dev/stdout";
 	new_node->next = NULL;
 	return (new_node);
 }

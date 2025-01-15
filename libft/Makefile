@@ -6,7 +6,7 @@
 #    By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/12 18:30:28 by ltheveni          #+#    #+#              #
-#    Updated: 2025/01/09 18:12:57 by ltheveni         ###   ########.fr        #
+#    Updated: 2025/01/15 11:47:07 by ltheveni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRCS = ft_isalpha.c\
 	   ft_atoi.c\
 	   ft_calloc.c\
 	   ft_strdup.c\
+	   ft_strndup.c\
 	   ft_substr.c\
 	   ft_strjoin.c\
 	   ft_strtrim.c\
