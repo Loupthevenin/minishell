@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:01:37 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/14 11:02:29 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/15 10:42:36 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	clean_shell(t_cmd *cmd, t_shell *shell)
 {
 	free_cmd_node(cmd);
 	free_tab((void **)shell->pipefd, shell->n_pipes, 0);
+	rl_clear_history();
 	/* free_tab((void **)shell->env, 0, 1); */
 }
 
@@ -47,9 +48,14 @@ int	main(int argc, char **argv, char **envp)
 			printf("exit\n");
 			break ;
 		}
+		if (*input == '\0')
+		{
+			free(input);
+			continue ;
+		}
 		cmd = parse_input(input);
-		exec_cmd(cmd, &shell);
 		free(input);
+		exec_cmd(cmd, &shell);
 	}
 	clean_shell(cmd, &shell);
 	return (0);
