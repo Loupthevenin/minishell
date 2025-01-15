@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 18:29:17 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/12 19:26:13 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/15 10:13:35 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,12 @@
 static void	handle_signal_parent(int sig)
 {
 	if (sig == SIGINT)
-		ft_putstr_fd("\nminishell> ", 1);
+	{
+		ft_putstr_fd("\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
 void	setup_signals(int is_parent)

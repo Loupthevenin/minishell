@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:06:28 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/12 18:59:50 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/15 10:02:25 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ void	exec_cmd(t_cmd *cmd, t_shell *shell)
 {
 	create_pipes(cmd, shell);
 	fork_processes(cmd, shell);
-	if (cmd->infile >= 0)
+	if (cmd->infile >= 0 && cmd->infile != STDIN_FILENO)
 		close(cmd->infile);
-	if (cmd->outfile >= 0)
+	if (cmd->outfile >= 0 && cmd->outfile != STDOUT_FILENO)
 		close(cmd->outfile);
 	close_pipes(shell->pipefd, shell->n_pipes);
 	wait_for_children(cmd);
