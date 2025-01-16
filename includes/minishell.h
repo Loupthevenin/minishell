@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:02:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/16 12:38:02 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/16 15:02:43 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,8 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
-// retirer le char **env;
 typedef struct s_shell
 {
-	char			**env;
 	t_env			*env_list;
 	pid_t			pid;
 	int				n_pipes;
@@ -49,7 +47,7 @@ typedef struct s_shell
 
 // utils
 void				free_tab(void **tabs, int size, int is_null);
-void				close_pipes(int **pipes, int n);
+void				free_shell(t_shell *shell);
 
 // utils cmd
 t_cmd				*create_node(char **args);

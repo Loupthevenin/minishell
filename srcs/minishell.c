@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:01:37 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/16 12:42:50 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/16 16:05:01 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	init_shell(t_shell *shell, char **envp)
 		shell->env_list = double_array_to_list(envp);
 	else
 	{
+		shell->env_list = NULL;
 	}
 	shell->pid = -1;
 	shell->n_pipes = 0;
@@ -28,21 +29,19 @@ static void	init_shell(t_shell *shell, char **envp)
 
 static void	clean_shell(t_cmd *cmd, t_shell *shell)
 {
-	(void)shell;
-	free_cmd_node(cmd);
+	if (cmd)
+		free_cmd_node(cmd);
+	if (shell)
+		free_shell(shell);
 	rl_clear_history();
 }
 
-int	main(int argc, char **argv, char **envp)
+static void	main_loop(t_shell *shell)
 {
 	char	*input;
 	t_cmd	*cmd;
-	t_shell	shell;
 
-	(void)argc;
-	(void)argv;
-	init_shell(&shell, envp);
-	setup_signals(1);
+	cmd = NULL;
 	while (1)
 	{
 		input = readline("minishell> ");
@@ -58,8 +57,19 @@ int	main(int argc, char **argv, char **envp)
 		}
 		cmd = parse_input(input);
 		free(input);
-		exec_cmd(cmd, &shell);
+		exec_cmd(cmd, shell);
 	}
-	clean_shell(cmd, &shell);
+	clean_shell(cmd, shell);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_shell	shell;
+
+	(void)argc;
+	(void)argv;
+	init_shell(&shell, envp);
+	setup_signals(1);
+	main_loop(&shell);
 	return (0);
 }

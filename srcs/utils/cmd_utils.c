@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:05:14 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/16 12:39:26 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/16 15:07:38 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ t_cmd	*create_node(char **args)
 
 	new_node = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new_node)
-	{
 		return (NULL);
-	}
 	new_node->args = args;
 	new_node->infile = NULL;
 	new_node->outfile = NULL;
@@ -74,13 +72,19 @@ void	free_cmd_node(t_cmd *head)
 		temp = head;
 		head = head->next;
 		i = 0;
-		while (temp->args[i])
+		if (temp->args)
 		{
-			free(temp->args[i]);
-			i++;
+			while (temp->args[i])
+			{
+				free(temp->args[i]);
+				i++;
+			}
+			free(temp->args);
 		}
-		free(temp->args);
-		// peut-etre free cmd.infile + cmd.outfile si malloc !;
+		if (temp->infile)
+			free(temp->infile);
+		if (temp->outfile)
+			free(temp->outfile);
 		free(temp);
 	}
 }
