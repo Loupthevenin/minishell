@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:38:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/16 15:39:33 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/16 17:36:10 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ void	fork_processes(t_cmd *cmd, t_shell *shell, int *fd, int pipe_in)
 	{
 		setup_signals(0);
 		if (pipe_in != -1)
-			redirect_input(cmd, pipe_in);
+			redirect_input(cmd, shell, pipe_in);
 		if (fd[1] != -1)
-			redirect_output(cmd, fd[1]);
+			redirect_output(cmd, shell, fd[1]);
 		if (pipe_in != -1)
 			close(pipe_in);
 		if (fd[1] != -1)

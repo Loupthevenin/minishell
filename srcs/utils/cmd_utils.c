@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:05:14 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/16 15:07:38 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/16 18:04:17 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_cmd	*create_node(char **args)
 	new_node->args = args;
 	new_node->infile = NULL;
 	new_node->outfile = NULL;
+	new_node->is_append = 0;
 	new_node->next = NULL;
 	return (new_node);
 }
