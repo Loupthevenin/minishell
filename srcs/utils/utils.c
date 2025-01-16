@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:15:56 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/15 10:36:45 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/16 15:04:16 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,25 @@ void	free_tab(void **tabs, int size, int is_null)
 	free(tabs);
 }
 
-void	close_pipes(int **pipes, int n)
+static void	free_env_node(t_env *head)
 {
-	int	i;
+	t_env	*temp;
 
-	i = 0;
-	while (i < n)
+	while (head)
 	{
-		close(pipes[i][0]);
-		close(pipes[i][1]);
-		i++;
+		temp = head;
+		head = head->next;
+		free(temp->key);
+		free(temp->value);
+		free(temp);
 	}
+}
+
+void	free_shell(t_shell *shell)
+{
+	if (!shell)
+		return ;
+	if (shell->env_list)
+		free_env_node(shell->env_list);
+	shell->env_list = NULL;
 }

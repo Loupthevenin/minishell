@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:06:28 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/16 12:45:48 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/16 15:37:45 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void	setup_pipe(int *fd, t_cmd *cmd, t_shell *shell)
 {
-	(void)shell;
 	if (pipe(fd) == -1)
 	{
 		perror("pipe failed");
@@ -23,6 +22,8 @@ static void	setup_pipe(int *fd, t_cmd *cmd, t_shell *shell)
 		if (fd[1] != -1)
 			close(fd[1]);
 		free_cmd_node(cmd);
+		free_shell(shell);
+		shell->last_exit = EXIT_FAILURE;
 		exit(EXIT_FAILURE);
 	}
 }
@@ -54,6 +55,12 @@ void	exec_cmd(t_cmd *cmd, t_shell *shell)
 			fd[0] = -1;
 			fd[1] = -1;
 		}
+		/* if (is_builtins(current)) */
+		/* { */
+		/* 	exec_builtins(cmd); */
+		/* 	current = current->next; */
+		/* 	continue ; */
+		/* } */
 		fork_processes(current, shell, fd, pipe_in);
 		pipe_in = fd[0];
 		if (current->next)
