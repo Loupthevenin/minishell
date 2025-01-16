@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:02:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/16 15:02:43 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/16 17:34:27 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_cmd
 	char			**args;
 	char			*infile;
 	char			*outfile;
+	int				is_append;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -65,8 +66,8 @@ int					ft_op(const char *s);
 // exec
 void				fork_processes(t_cmd *cmd, t_shell *shell, int *fd,
 						int pipe_in);
-void				redirect_input(t_cmd *cmd, int pipe_in);
-void				redirect_output(t_cmd *cmd, int pipe_out);
+void				redirect_input(t_cmd *cmd, t_shell *shell, int pipe_in);
+void				redirect_output(t_cmd *cmd, t_shell *shell, int pipe_out);
 void				process(t_cmd *cmd, t_shell *shell);
 char				*get_cmd_path(const char *cmd, char **envp);
 void				exec_builtins(t_cmd *cmd);
