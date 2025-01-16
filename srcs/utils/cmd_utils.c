@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:05:14 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/15 11:28:07 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/16 12:39:26 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,8 @@ t_cmd	*create_node(char **args)
 		return (NULL);
 	}
 	new_node->args = args;
-	new_node->infile = STDIN_FILENO;
-	new_node->path_infile = "/dev/stdin";
-	new_node->outfile = STDOUT_FILENO;
-	new_node->path_outfile = "/dev/stdout";
+	new_node->infile = NULL;
+	new_node->outfile = NULL;
 	new_node->next = NULL;
 	return (new_node);
 }
@@ -82,10 +80,7 @@ void	free_cmd_node(t_cmd *head)
 			i++;
 		}
 		free(temp->args);
-		if (temp->infile >= 0)
-			close(temp->infile);
-		if (temp->outfile >= 0)
-			close(temp->outfile);
+		// peut-etre free cmd.infile + cmd.outfile si malloc !;
 		free(temp);
 	}
 }

@@ -6,94 +6,54 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 11:29:21 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/12 10:01:26 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/16 12:40:48 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	redirect_input(int infile)
+// open infile here + permission;
+void	redirect_input(t_cmd *cmd, int pipe_in)
 {
-	if (infile >= 0 && infile != STDIN_FILENO)
+	if (cmd->infile)
 	{
-		if (dup2(infile, STDIN_FILENO) == -1)
+		/* if (dup2(cmd->infile, STDIN_FILENO) == -1) */
+		/* { */
+		/* 	perror("infile"); */
+		/* 	exit(EXIT_FAILURE); */
+		/* } */
+		/* close(cmd->infile); */
+	}
+	if (pipe_in != -1)
+	{
+		if (dup2(pipe_in, STDIN_FILENO) == -1)
 		{
 			perror("dup2 (redirect_input)");
 			exit(EXIT_FAILURE);
 		}
-		if (close(infile) == -1)
+		close(pipe_in);
+	}
+}
+
+// open outfile here + permission;
+void	redirect_output(t_cmd *cmd, int pipe_out)
+{
+	if (cmd->outfile)
+	{
+		/* if (dup2(cmd->outfile, STDOUT_FILENO) == -1) */
+		/* { */
+		/* 	perror("outfile"); */
+		/* 	exit(EXIT_FAILURE); */
+		/* } */
+		/* close(cmd->outfile); */
+	}
+	if (pipe_out != -1)
+	{
+		if (dup2(pipe_out, STDOUT_FILENO) == -1)
 		{
-			perror("close (redirect_input)");
+			perror("dup2 (redirect_output)");
 			exit(EXIT_FAILURE);
 		}
+		close(pipe_out);
 	}
-}
-
-static void	redirect_output(int outfile)
-{
-	if (outfile >= 0 && outfile != STDOUT_FILENO)
-	{
-		if (dup2(outfile, STDOUT_FILENO) == -1)
-		{
-			perror("dup2 (redirect_output");
-			exit(EXIT_FAILURE);
-		}
-		if (close(outfile) == -1)
-		{
-			perror("close (redirect_output)");
-			exit(EXIT_FAILURE);
-		}
-	}
-}
-
-static void	zero_pipe(t_cmd *cmd, t_shell *shell)
-{
-	(void)shell;
-	redirect_input(cmd->infile);
-	if (cmd->outfile == -1)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd->path_outfile, 2);
-		ft_putstr_fd(": Permission denied\n", 2);
-		free_cmd_node(cmd);
-		exit(126);
-	}
-	redirect_output(cmd->outfile);
-}
-
-static void	n_pipes(t_cmd *cmd, t_shell *shell, int i)
-{
-	if (i == 0)
-	{
-		redirect_input(cmd->infile);
-		redirect_output(shell->pipefd[i][1]);
-	}
-	else if (i == shell->n_pipes)
-	{
-		redirect_input(shell->pipefd[i - 1][0]);
-		if (cmd->outfile == -1)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(cmd->path_outfile, 2);
-			ft_putstr_fd(": Permission denied\n", 2);
-			free_cmd_node(cmd);
-			free_tab((void **)shell->pipefd, i + 1, 0);
-			exit(126);
-		}
-		redirect_output(cmd->outfile);
-	}
-	else
-	{
-		redirect_input(shell->pipefd[i - 1][0]);
-		redirect_output(shell->pipefd[i][1]);
-	}
-}
-
-void	redirect(int i, t_cmd *cmd, t_shell *shell)
-{
-	if (shell->n_pipes == 0)
-		zero_pipe(cmd, shell);
-	else
-		n_pipes(cmd, shell, i);
-	close_pipes(shell->pipefd, shell->n_pipes);
 }

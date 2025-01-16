@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:39:41 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/15 15:24:42 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/15 20:19:21 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static void	handle_error_process(t_cmd *cmd, t_shell *shell, char **envp,
 		int exit_error)
 {
+	(void)shell;
 	free_cmd_node(cmd);
-	free_tab((void **)shell->pipefd, shell->n_pipes, 0);
 	free_tab((void **)envp, 0, 1);
 	exit(exit_error);
 }
@@ -31,7 +31,6 @@ void	process(t_cmd *cmd, t_shell *shell)
 	{
 		perror("minishell: failed alloc memory environment");
 		free_cmd_node(cmd);
-		free_tab((void **)shell->pipefd, shell->n_pipes, 0);
 		exit(EXIT_FAILURE);
 	}
 	cmd_path = get_cmd_path(cmd->args[0], envp);
