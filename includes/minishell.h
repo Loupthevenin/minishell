@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:02:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/15 14:26:31 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/16 12:38:02 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "ft_printf.h"
 # include "libft.h"
+# include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -24,10 +25,8 @@
 typedef struct s_cmd
 {
 	char			**args;
-	int				infile;
-	char			*path_infile;
-	int				outfile;
-	char			*path_outfile;
+	char			*infile;
+	char			*outfile;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -43,7 +42,6 @@ typedef struct s_shell
 {
 	char			**env;
 	t_env			*env_list;
-	int				**pipefd;
 	pid_t			pid;
 	int				n_pipes;
 	int				last_exit;
@@ -67,8 +65,10 @@ char				**list_to_double_array(t_env *env);
 int					ft_op(const char *s);
 
 // exec
-void				fork_processes(t_cmd *cmd, t_shell *shell);
-void				redirect(int i, t_cmd *cmd, t_shell *shell);
+void				fork_processes(t_cmd *cmd, t_shell *shell, int *fd,
+						int pipe_in);
+void				redirect_input(t_cmd *cmd, int pipe_in);
+void				redirect_output(t_cmd *cmd, int pipe_out);
 void				process(t_cmd *cmd, t_shell *shell);
 char				*get_cmd_path(const char *cmd, char **envp);
 void				exec_builtins(t_cmd *cmd);

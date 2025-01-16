@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:38:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/12 18:51:31 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/16 12:22:39 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,38 +33,46 @@
 
 static void	handle_fork_error(t_cmd *cmd, t_shell *shell)
 {
+	(void)shell;
 	perror("fork");
 	free_cmd_node(cmd);
-	free_tab((void **)shell->pipefd, shell->n_pipes, 0);
 	exit(EXIT_FAILURE);
 }
 
-void	fork_processes(t_cmd *cmd, t_shell *shell)
+static void	cleanup_fork(t_cmd *cmd, t_shell *shell)
 {
-	t_cmd	*current;
-	int		i;
+	(void)shell;
+	free_cmd_node(cmd);
+}
 
-	current = cmd;
-	i = 0;
-	while (current)
+void	fork_processes(t_cmd *cmd, t_shell *shell, int *fd, int pipe_in)
+{
+	/* if (is_builtins(current)) */
+	/* { */
+	/* 	exec_builtins(cmd); */
+	/* 	current = current->next; */
+	/* 	continue ; */
+	/* } */
+	shell->pid = fork();
+	if (shell->pid == 0)
 	{
-		/* if (is_builtins(current)) */
-		/* { */
-		/* 	exec_builtins(cmd); */
-		/* 	current = current->next; */
-		/* 	continue ; */
-		/* } */
-		shell->pid = fork();
-		if (shell->pid == -1)
-			handle_fork_error(cmd, shell);
-		if (shell->pid == 0)
-		{
-			redirect(i, cmd, shell);
-			setup_signals(0);
-			process(cmd, shell);
-			exit(EXIT_SUCCESS);
-		}
-		current = current->next;
-		i++;
+		setup_signals(0);
+		if (pipe_in != -1)
+			redirect_input(cmd, pipe_in);
+		if (fd[1] != -1)
+			redirect_output(cmd, fd[1]);
+		if (pipe_in != -1)
+			close(pipe_in);
+		if (fd[1] != -1)
+			close(fd[1]);
+		process(cmd, shell);
+		cleanup_fork(cmd, shell);
+		exit(EXIT_SUCCESS);
 	}
+	else if (shell->pid == -1)
+		handle_fork_error(cmd, shell);
+	if (pipe_in != -1)
+		close(pipe_in);
+	if (fd[1] != -1)
+		close(fd[1]);
 }
