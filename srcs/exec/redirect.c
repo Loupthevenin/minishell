@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 11:29:21 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/16 17:33:59 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/17 10:28:20 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	redirect_input(t_cmd *cmd, t_shell *shell, int pipe_in)
 {
 	int	infile;
 
+	if (cmd->is_here_doc)
+		handle_here_doc(cmd, shell);
 	if (cmd->infile)
 	{
 		check_file_permission(cmd, shell, cmd->infile, 0);
@@ -71,6 +73,8 @@ void	redirect_input(t_cmd *cmd, t_shell *shell, int pipe_in)
 			exit(EXIT_FAILURE);
 		}
 		close(infile);
+		if (cmd->is_here_doc)
+			unlink(cmd->infile);
 	}
 	if (pipe_in != -1)
 	{

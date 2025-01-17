@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:02:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/16 17:34:27 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/17 10:18:23 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ typedef struct s_cmd
 	char			*infile;
 	char			*outfile;
 	int				is_append;
+	int				is_here_doc;
+	char			*delimiter_here_doc;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -49,6 +51,7 @@ typedef struct s_shell
 // utils
 void				free_tab(void **tabs, int size, int is_null);
 void				free_shell(t_shell *shell);
+char				*get_value_env(t_env *env, const char *key);
 
 // utils cmd
 t_cmd				*create_node(char **args);
@@ -66,6 +69,7 @@ int					ft_op(const char *s);
 // exec
 void				fork_processes(t_cmd *cmd, t_shell *shell, int *fd,
 						int pipe_in);
+void				handle_here_doc(t_cmd *cmd, t_shell *shell);
 void				redirect_input(t_cmd *cmd, t_shell *shell, int pipe_in);
 void				redirect_output(t_cmd *cmd, t_shell *shell, int pipe_out);
 void				process(t_cmd *cmd, t_shell *shell);
