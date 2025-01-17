@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:15:56 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/16 15:04:16 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/17 08:31:51 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,18 @@ void	free_shell(t_shell *shell)
 	if (shell->env_list)
 		free_env_node(shell->env_list);
 	shell->env_list = NULL;
+}
+
+char	*get_value_env(t_env *env, const char *key)
+{
+	t_env	*current;
+
+	current = env;
+	while (current)
+	{
+		if (!ft_strcmp(current->key, key))
+			return (current->value);
+		current = current->next;
+	}
+	return (NULL);
 }
