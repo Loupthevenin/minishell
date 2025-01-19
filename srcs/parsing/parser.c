@@ -6,14 +6,24 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:02:48 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/15 09:33:23 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/19 17:48:35 by kleung-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // returns 1 if identical
-int	ft_op(const char *s)
+int	if_op_char(const char *s, int i)
+{
+	if (!s)
+		return (0);
+	if (s[i] == '|' || s[i] == '<' || s[i] == '>')
+		return (1);
+	return (0);
+}
+
+// returns 1 if identical
+int	if_op(const char *s)
 {
 	if (!s || !*s)
 		return (0);
@@ -43,34 +53,37 @@ static void	print_node(t_cmd *head)
 	}
 }
 
-t_cmd	*parse_input(char *input)
+t_cmd	*parse_input(const char *input)
 {
+	t_cmd	*cmd;
 	int		i;
-	char	**args;
+	char	**tmp;
 	t_cmd	*head;
 	t_cmd	*new_node;
 
 	i = 0;
-	args = ft_split(input, '|');
-	if (!args)
+	tmp = split_input(input);
+	if (!tmp)
 		return (NULL);
 	head = NULL;
-	while (args[i])
+	cmd = malloc(sizeof(t_cmd));
+	cmd->args = NULL;
+	while (tmp[i])
 	{
-		// ici changer le split par le split qui vire les isspaces
-		new_node = create_node(ft_split(args[i++], ' '));
+		new_node = create_node(split_arg(tmp[i]));
 		if (!new_node)
 		{
 			free_cmd_node(head);
-			free_tab((void **)args, 0, 1);
+			free_tab((void **)cmd->args, 0, 1);
 			return (NULL);
 		}
-		if (i == 0)
+		else if (i == 0)
 			head = new_node;
 		else
 			append_node(&head, new_node);
+		i++;
 	}
 	print_node(head);
-	free_tab((void **)args, 0, 1);
+	free_tab((void **)cmd->args, 0, 1);
 	return (head);
 }
