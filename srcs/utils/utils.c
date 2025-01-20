@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:15:56 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/17 08:31:51 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/21 00:06:12 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,33 @@ char	*get_value_env(t_env *env, const char *key)
 		current = current->next;
 	}
 	return (NULL);
+}
+
+long long	ft_atoi_exit(const char *str, int *overflow)
+{
+	long long	result;
+	int			sign;
+	int			i;
+
+	sign = 1;
+	result = 0;
+	i = 0;
+	*overflow = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+	{
+		if (str[i++] == '-')
+			sign *= -1;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		if (result > (LLONG_MAX - (str[i] - '0')) / 10)
+		{
+			*overflow = 1;
+			return (0);
+		}
+		result = result * 10 + (str[i++] - '0');
+	}
+	return (result * sign);
 }

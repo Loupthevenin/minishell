@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/06 14:02:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/19 18:53:32 by kleung-t         ###   ########.fr       */
+/*   Created: 2025/01/21 00:10:54 by ltheveni          #+#    #+#             */
+/*   Updated: 2025/01/21 00:11:02 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@
 # include "libft.h"
 # include <errno.h>
 # include <fcntl.h>
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-# include <sys/wait.h>
 # include <stdlib.h>
+# include <sys/wait.h>
 
 typedef struct s_cmd
 {
@@ -54,6 +55,7 @@ typedef struct s_shell
 void				free_tab(void **tabs, int size, int is_null);
 void				free_shell(t_shell *shell);
 char				*get_value_env(t_env *env, const char *key);
+long long			ft_atoi_exit(const char *str, int *overflow);
 
 // utils cmd
 t_cmd				*create_node(char **args);
@@ -89,16 +91,17 @@ void				redirect_input(t_cmd *cmd, t_shell *shell, int pipe_in);
 void				redirect_output(t_cmd *cmd, t_shell *shell, int pipe_out);
 void				process(t_cmd *cmd, t_shell *shell);
 char				*get_cmd_path(const char *cmd, char **envp);
-void				exec_builtins(t_cmd *cmd);
+void				exec_builtins(t_shell *shell, t_cmd *cmd);
 
 // builtins
-void				builtin_echo(char **args);
-void				builtin_cd(char **args);
-void				builtin_pwd(char **args);
-void				builtin_export(char **args);
-void				builtin_unset(char **args);
-void				builtin_env(char **args);
-void				builtin_exit(char **args);
+int					is_builtins(t_cmd *cmd);
+void				builtin_echo(t_shell *shell, t_cmd *cmd);
+void				builtin_cd(t_shell *shell, t_cmd *cmd);
+void				builtin_pwd(t_shell *shell, t_cmd *cmd);
+void				builtin_export(t_shell *shell, t_cmd *cmd);
+void				builtin_unset(t_shell *shell, t_cmd *cmd);
+void				builtin_env(t_shell *shell, t_cmd *cmd);
+void				builtin_exit(t_shell *shell, t_cmd *cmd);
 
 // main
 void				setup_signals(int is_parent);

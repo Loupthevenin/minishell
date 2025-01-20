@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:52:09 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/19 17:40:56 by kleung-t         ###   ########.fr       */
+/*   Updated: 2025/01/19 21:19:49 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ char	*malloc_word_arg(const char *s, int delimiter_type)
 	char	*word;
 
 	i = 0;
-	while (s[i] && ((delimiter_type == 1 && !if_op(s))
-			|| (delimiter_type == 2 && !ft_sp(s[i]))))
+	while (s[i] && ((delimiter_type == 1 && !if_op(s)) || (delimiter_type == 2
+				&& !ft_sp(s[i]))))
 		i++;
 	word = (char *)malloc(sizeof(char) * (i + 1));
 	if (!word)
 		return (NULL);
 	i = 0;
-	while (s[i] && ((delimiter_type == 1 && !if_op(s))
-			|| (delimiter_type == 2 && !ft_sp(s[i]))))
+	while (s[i] && ((delimiter_type == 1 && !if_op(s)) || (delimiter_type == 2
+				&& !ft_sp(s[i]))))
 	{
 		word[i] = s[i];
 		i++;
@@ -85,7 +85,7 @@ char	**split_cmd(char **s, int j, t_cmd *cmd)
 	return (NULL);
 }
 
-//split on operators
+// split on operators
 char	**split_input(const char *s)
 {
 	int		i;
@@ -115,7 +115,7 @@ char	**split_input(const char *s)
 	return (result);
 }
 
-//split on spaces
+// split on spaces
 char	**split_arg(const char *s)
 {
 	int		i;
@@ -135,7 +135,7 @@ char	**split_arg(const char *s)
 		{
 			result[i] = malloc_word_arg(s, 2);
 			if (!result)
-				return (free_tab((void **)result, i, 0), NULL);
+				return (free_tab((void **)result, 0, 1), NULL);
 			i++;
 			while (*s && !ft_sp(*s))
 				s++;
