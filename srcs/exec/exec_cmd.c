@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:06:28 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/16 15:37:45 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/19 17:24:57 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,44 +28,58 @@ static void	setup_pipe(int *fd, t_cmd *cmd, t_shell *shell)
 	}
 }
 
+static void	setup_fd(t_shell *shell, t_cmd *current, int *fd)
+{
+	if (current->next)
+		setup_pipe(fd, current, shell);
+	else
+	{
+		fd[0] = -1;
+		fd[1] = -1;
+	}
+}
+
 static void	wait_for_child(void)
 {
 	int		status;
 	pid_t	pid;
 
-	while ((pid = wait(&status)) > 0)
-	{
-	}
+	pid = wait(&status);
+	while (pid > 0)
+		pid = wait(&status);
 }
 
-void	exec_cmd(t_cmd *cmd, t_shell *shell)
+static void	exec_cmd_loop(t_cmd *cmd, t_shell *shell, int *fd, int pipe_in)
 {
 	t_cmd	*current;
-	int		fd[2];
-	int		pipe_in;
 
-	pipe_in = -1;
 	current = cmd;
 	while (current)
 	{
-		if (current->next)
-			setup_pipe(fd, current, shell);
-		else
+		setup_fd(shell, cmd, fd);
+		if (is_builtins(current))
 		{
-			fd[0] = -1;
-			fd[1] = -1;
+			if (!current->next && pipe_in == -1)
+			{
+				exec_builtins(shell, cmd);
+				current = current->next;
+				continue ;
+			}
 		}
-		/* if (is_builtins(current)) */
-		/* { */
-		/* 	exec_builtins(cmd); */
-		/* 	current = current->next; */
-		/* 	continue ; */
-		/* } */
 		fork_processes(current, shell, fd, pipe_in);
 		pipe_in = fd[0];
 		if (current->next)
 			close(fd[1]);
 		current = current->next;
 	}
+}
+
+void	exec_cmd(t_cmd *cmd, t_shell *shell)
+{
+	int	fd[2];
+	int	pipe_in;
+
+	pipe_in = -1;
+	exec_cmd_loop(cmd, shell, fd, pipe_in);
 	wait_for_child();
 }
