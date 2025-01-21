@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 00:10:54 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/21 00:11:02 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/21 19:28:34 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,15 @@ t_cmd				*create_node(char **args);
 void				append_node(t_cmd **head, t_cmd *new_node);
 int					get_command_count(t_cmd *head);
 void				free_cmd_node(t_cmd *head);
+void				free_env_node(t_env *head);
 
 // utils env
 t_env				*double_array_to_list(char **envp);
 char				**list_to_double_array(t_env *env);
+void				selection_sort_env(char **array, int size);
+int					check_identifier_unset(char *s);
+int					check_identifier_export(char *s);
+int					get_size_env(t_env *env);
 
 // parsing
 int					cmp(const char *s1, const char *s2);

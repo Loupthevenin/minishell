@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:50:30 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/15 15:30:57 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/21 19:49:16 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,27 @@ static int	env_list_size(t_env *env)
 	return (i);
 }
 
+static int	set_len_string(t_env *current)
+{
+	int	len_string;
+
+	if (current->value)
+		len_string = ft_strlen(current->key) + ft_strlen(current->value) + 2;
+	else
+		len_string = ft_strlen(current->key) + 0 + 2;
+	return (len_string);
+}
+
+static void	set_value_result(t_env *current, char *s, int len_string)
+{
+	ft_strlcpy(s, current->key, ft_strlen(current->key) + 1);
+	if (current->value)
+	{
+		ft_strlcat(s, "=", len_string);
+		ft_strlcat(s, current->value, len_string);
+	}
+}
+
 static char	**loop_list_to_double_array(char **result, t_env *env, int len_list)
 {
 	int		i;
@@ -37,16 +58,15 @@ static char	**loop_list_to_double_array(char **result, t_env *env, int len_list)
 	current = env;
 	while (i < len_list)
 	{
-		len_string = ft_strlen(current->key) + ft_strlen(current->value) + 2;
+		len_string = set_len_string(current);
 		result[i] = (char *)malloc(sizeof(char) * (len_string));
 		if (!result[i])
 		{
 			free_tab((void **)result, 0, 1);
 			return (NULL);
 		}
-		ft_strlcpy(result[i], current->key, ft_strlen(current->key) + 1);
-		ft_strlcat(result[i], "=", len_string);
-		ft_strlcat(result[i], current->value, len_string);
+		set_value_result(current, result[i], len_string);
+		result[i][len_string - 1] = '\0';
 		i++;
 		current = current->next;
 	}
@@ -59,6 +79,8 @@ char	**list_to_double_array(t_env *env)
 	char	**result;
 	int		len_list;
 
+	if (!env)
+		return (NULL);
 	len_list = env_list_size(env);
 	result = (char **)malloc(sizeof(char *) * (len_list + 1));
 	if (!result)
