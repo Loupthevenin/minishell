@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 15:48:48 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/21 10:04:17 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/21 10:13:06 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	builtin_echo(t_shell *shell, t_cmd *cmd)
 	(void)shell;
 	newline = 1;
 	i = 1;
-	if (!ft_strcmp(cmd->args[1], "-n"))
+	if (cmd->args[1] && !ft_strcmp(cmd->args[1], "-n"))
 	{
 		newline = 0;
 		i++;
