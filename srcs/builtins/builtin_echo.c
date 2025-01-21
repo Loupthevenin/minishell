@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 15:48:48 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/21 10:13:06 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/21 10:57:23 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,5 @@ void	builtin_echo(t_shell *shell, t_cmd *cmd)
 	}
 	if (newline)
 		ft_putchar_fd('\n', 1);
+	shell->last_exit = 0;
 }
