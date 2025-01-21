@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:15:56 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/21 00:06:12 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:08:03 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	free_tab(void **tabs, int size, int is_null)
 	free(tabs);
 }
 
-static void	free_env_node(t_env *head)
+void	free_env_node(t_env *head)
 {
 	t_env	*temp;
 
@@ -46,8 +46,10 @@ static void	free_env_node(t_env *head)
 	{
 		temp = head;
 		head = head->next;
-		free(temp->key);
-		free(temp->value);
+		if (temp->key)
+			free(temp->key);
+		if (temp->value)
+			free(temp->value);
 		free(temp);
 	}
 }

@@ -6,27 +6,11 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 15:49:38 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/21 11:45:43 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/21 19:28:43 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static int	check_identifier(char *s)
-{
-	int	i;
-
-	if (!s || (!ft_isalpha(s[0]) && s[0] != '_'))
-		return (0);
-	i = 0;
-	while (s[i])
-	{
-		if (!ft_isalpha(s[i]) && s[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 static void	unset_env_var(t_env **env, const char *key)
 {
@@ -67,7 +51,7 @@ void	builtin_unset(t_shell *shell, t_cmd *cmd)
 	i = 1;
 	while (cmd->args[i])
 	{
-		if (!check_identifier(cmd->args[i]))
+		if (!check_identifier_unset(cmd->args[i]))
 		{
 			ft_putstr_fd("minishell: unset: `", 2);
 			ft_putstr_fd(cmd->args[i], 2);
