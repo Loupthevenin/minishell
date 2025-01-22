@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 00:10:54 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/21 19:28:34 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/22 08:23:44 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void				selection_sort_env(char **array, int size);
 int					check_identifier_unset(char *s);
 int					check_identifier_export(char *s);
 int					get_size_env(t_env *env);
+void				update_env_var(t_env *env, char *key, char *new_value);
 
 // parsing
 int					cmp(const char *s1, const char *s2);

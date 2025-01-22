@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 15:50:28 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/21 19:29:06 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/22 08:23:31 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	print_export(t_env *env)
 	free_tab((void **)sorted_copy, 0, 1);
 }
 
-static void	update_env_var(t_env *env, char *key, char *new_value)
+void	update_env_var(t_env *env, char *key, char *new_value)
 {
 	t_env	*current;
 
