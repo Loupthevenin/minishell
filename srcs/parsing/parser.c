@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:02:48 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/19 17:48:35 by kleung-t         ###   ########.fr       */
+/*   Updated: 2025/01/22 19:37:44 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,20 @@ static void	print_node(t_cmd *head)
 	}
 }
 
-t_cmd	*parse_input(const char *input)
+t_cmd	*parse_input(const char *input, t_shell *shell)
 {
 	t_cmd	*cmd;
 	int		i;
 	char	**tmp;
+	char	*formatted;
 	t_cmd	*head;
 	t_cmd	*new_node;
 
 	i = 0;
-	tmp = split_input(input);
+	formatted = format_input(input, shell);
+	if (formatted)
+		printf("%s\n", formatted);
+	tmp = split_input(formatted);
 	if (!tmp)
 		return (NULL);
 	head = NULL;
