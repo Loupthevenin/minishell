@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:01:37 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/17 08:11:55 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/22 18:53:11 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	main_loop(t_shell *shell)
 			free(input);
 			continue ;
 		}
-		cmd = parse_input(input);
+		cmd = parse_input(input, shell);
 		free(input);
 		exec_cmd(cmd, shell);
 	}

@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 00:10:54 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/22 08:23:44 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/22 09:49:19 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,12 @@ int					check_identifier_export(char *s);
 int					get_size_env(t_env *env);
 void				update_env_var(t_env *env, char *key, char *new_value);
 
+// utils parsing
+int					ft_nbrlen(int n);
+
 // parsing
+int					strings_size(const char *input, t_shell *shell);
+char				*format_input(const char *input, t_shell *shell);
 int					cmp(const char *s1, const char *s2);
 char				*ft_join(char *s1, char *s2);
 char				*ft_dup(char *s1, char *s2);
@@ -111,6 +116,6 @@ void				builtin_exit(t_shell *shell, t_cmd *cmd);
 
 // main
 void				setup_signals(int is_parent);
-t_cmd				*parse_input(const char *input);
+t_cmd				*parse_input(const char *input, t_shell *shell);
 void				exec_cmd(t_cmd *cmd, t_shell *shell);
 #endif
