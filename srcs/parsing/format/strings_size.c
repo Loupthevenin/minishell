@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:38:47 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/22 19:35:53 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/23 11:37:28 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static char	*set_value(const char *input)
 static int	set_count_env_var(t_shell *shell, const char **input)
 {
 	char	*key;
+	char	*value;
 	int		count;
 
 	(*input)++;
@@ -40,15 +41,14 @@ static int	set_count_env_var(t_shell *shell, const char **input)
 	key = set_value(*input);
 	if (key)
 	{
-		count += ft_strlen(get_value_env(shell->env_list, key));
+		value = get_value_env(shell->env_list, key);
+		if (value)
+			count += ft_strlen(value);
 		free(key);
 	}
 	while (ft_isalnum(**input) || **input == '_')
-	{
-		if (**input == '\0')
-			break ;
 		(*input)++;
-	}
+	(*input)--;
 	return (count);
 }
 
