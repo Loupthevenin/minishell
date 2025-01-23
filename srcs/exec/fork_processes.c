@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:38:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/19 17:03:41 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/23 14:16:14 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,14 @@ static void	cleanup_fork(t_cmd *cmd, t_shell *shell)
 	exit(EXIT_SUCCESS);
 }
 
+static void	close_pipe(int pipe_in, int *fd)
+{
+	if (pipe_in != -1)
+		close(pipe_in);
+	if (fd[1] != -1)
+		close(fd[1]);
+}
+
 void	fork_processes(t_cmd *cmd, t_shell *shell, int *fd, int pipe_in)
 {
 	shell->pid = fork();
@@ -38,7 +46,12 @@ void	fork_processes(t_cmd *cmd, t_shell *shell, int *fd, int pipe_in)
 		if (pipe_in != -1)
 			redirect_input(cmd, shell, pipe_in);
 		if (fd[1] != -1)
-			redirect_output(cmd, shell, fd[1]);
+		{
+			if (cmd->next)
+				redirect_output(cmd, shell, fd[1]);
+			else
+				redirect_output(cmd, shell, -1);
+		}
 		if (pipe_in != -1)
 			close(pipe_in);
 		if (fd[1] != -1)
@@ -48,8 +61,5 @@ void	fork_processes(t_cmd *cmd, t_shell *shell, int *fd, int pipe_in)
 	}
 	else if (shell->pid == -1)
 		handle_fork_error(cmd, shell);
-	if (pipe_in != -1)
-		close(pipe_in);
-	if (fd[1] != -1)
-		close(fd[1]);
+	close_pipe(pipe_in, fd);
 }

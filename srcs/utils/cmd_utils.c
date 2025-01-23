@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:05:14 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/23 16:21:35 by kleung-t         ###   ########.fr       */
+/*   Updated: 2025/01/23 22:54:05 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_cmd	*create_node(char **arg)
 	if (!new_node)
 		return (NULL);
 	new_node->args = arg;
-	new_node->op = NULL;
 	new_node->infile = NULL;
 	new_node->outfile = NULL;
 	new_node->is_append = 0;

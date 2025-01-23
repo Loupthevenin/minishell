@@ -36,19 +36,19 @@ int	if_op(const char *s)
 	return (0);
 }
 
-//returns 1 if found
+// returns 1 if found
 int	if_cmd(const char *s)
 {
 	if (s[0] == 0)
 		return (0);
-	else if (cmp(s, "ls") || cmp(s, "echo")
-		|| cmp(s, "pwd") || cmp(s, "export") || cmp(s, "env"))
+	else if (cmp(s, "ls") || cmp(s, "echo") || cmp(s, "pwd") || cmp(s, "export")
+			|| cmp(s, "env"))
 		return (1);
 	else
 		return (0);
 }
 
-//returns 1 if found
+// returns 1 if found
 int	if_sub_cmd(const char *s)
 {
 	if (s[0] == 0)

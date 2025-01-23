@@ -6,7 +6,8 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 00:10:54 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/23 17:14:10 by kleung-t         ###   ########.fr       */
+/*   Updated: 2025/01/23 22:53:49 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:54:32 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +28,6 @@
 typedef struct s_cmd
 {
 	char			**args;
-	char			*op;
 	char			*infile;
 	char			*outfile;
 	int				is_append;
@@ -50,6 +50,14 @@ typedef struct s_shell
 	int				n_pipes;
 	int				last_exit;
 }					t_shell;
+
+typedef struct s_split
+{
+	int				in_single_quote;
+	int				in_double_quote;
+	int				start;
+	int				index;
+}					t_split;
 
 // utils
 void				free_tab(void **tabs, int size, int is_null);
@@ -75,6 +83,7 @@ void				update_env_var(t_env *env, char *key, char *new_value);
 
 // utils parsing
 int					ft_nbrlen(int n);
+int					is_quote(char c, t_split *state);
 
 // parsing
 int					strings_size(const char *input, t_shell *shell);
@@ -83,16 +92,13 @@ int					cmp(const char *s1, const char *s2);
 int					cmp_char(char c1, char c2);
 char				*ft_join(char *s1, char *s2);
 char				*ft_dup(char *s1, char *s2);
-char				**split_cmd(char **s, int j, t_cmd *cmd);
-char				**set_args(char **s, t_cmd *cmd);
+// char				**split_cmd(char **s, int j, t_cmd *cmd);
+// char				**set_args(char **s, t_cmd *cmd);
 int					if_op(const char *s);
 int					if_op_char(const char *s, int i);
 int					if_cmd(const char *s);
 int					if_sub_cmd(const char *s);
 int					ft_sp(char c);
-char				*malloc_word_arg(const char *s, int delimiter_type);
-int					count_op(const char *arg);
-int					count_word_sp(const char *arg);
 char				**split_input(const char *s);
 char				**split_arg(const char *s);
 char				**create_tab(const char *s, char **tab);
@@ -122,6 +128,6 @@ void				builtin_exit(t_shell *shell, t_cmd *cmd);
 
 // main
 void				setup_signals(int is_parent);
-t_cmd				*parse_input(const char *input);
+t_cmd				*parse_input(const char *input, t_shell *shell);
 void				exec_cmd(t_cmd *cmd, t_shell *shell);
 #endif
