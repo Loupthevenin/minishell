@@ -6,11 +6,29 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 18:24:36 by kleung-t          #+#    #+#             */
-/*   Updated: 2025/01/19 17:40:58 by kleung-t         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:41:04 by kleung-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+// 	cmp | ft_join | ft_dup | set_args
+
+// returns 1 if identical
+int	cmp(const char *s1, const char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i])
+	{
+		if (s1[i] == s2[i])
+			i++;
+		else
+			return (0);
+	}
+	return (1);
+}
 
 //adds [s2] after [s1]
 char	*ft_join(char *s1, char *s2)
