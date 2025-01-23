@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 08:43:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/22 19:53:57 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/23 11:38:27 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static void	set_env_var(t_shell *shell, int *i, const char **input,
 	}
 	while (ft_isalnum(**input) || **input == '_')
 		(*input)++;
+	(*input)--;
 }
 
 static void	handle_dollar(const char **input, char *result, int *i,
