@@ -6,13 +6,37 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:02:48 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/23 17:15:02 by kleung-t         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:28:11 by kleung-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-//	parse_input
+//	malloc_word_arg | parse_input
+
+// 1 = OP, 2 = TOKEN
+char	*malloc_word_arg(const char *s, int delimiter_type)
+{
+	int		i;
+	char	*word;
+
+	i = 0;
+	while (s[i] && ((delimiter_type == 1 && !if_op(s))
+			|| (delimiter_type == 2 && !ft_sp(s[i]))))
+		i++;
+	word = (char *)malloc(sizeof(char) * (i + 1));
+	if (!word)
+		return (NULL);
+	i = 0;
+	while (s[i] && ((delimiter_type == 1 && !if_op(s))
+			|| (delimiter_type == 2 && !ft_sp(s[i]))))
+	{
+		word[i] = s[i];
+		i++;
+	}
+	word[i] = '\0';
+	return (word);
+}
 
 // affiche les args;
 static void	print_node(t_cmd *head)
@@ -46,8 +70,8 @@ t_cmd	*parse_input(const char *input)
 		return (NULL);
 	head = NULL;
 	tmp = (char **)malloc(sizeof(char *) * ((count_op(input)) + 1));
-	tmp[count_op(input) + 1]  = 0;
-	tmp = create_tab( input, tmp);
+	tmp[count_op(input) + 1] = 0;
+	tmp = create_tab(input, tmp);
 	while (tmp[i])
 	{
 		new_node = create_node(split_arg(tmp[i]));
