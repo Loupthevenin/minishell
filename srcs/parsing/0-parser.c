@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:02:48 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/23 16:38:20 by kleung-t         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:15:02 by kleung-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,18 @@ static void	print_node(t_cmd *head)
 
 t_cmd	*parse_input(const char *input)
 {
-	t_cmd	*cmd;
 	int		i;
-	int		j;
 	char	**tmp;
 	t_cmd	*head;
 	t_cmd	*new_node;
 
 	i = 0;
-	j = 0;
 	tmp = split_input(input);
 	if (!tmp)
 		return (NULL);
 	head = NULL;
-	tmp = (char **)malloc(sizeof(char *) * ((count_op(s)) + 1));
-	tmp[count_op(s) + 1]  = 0;
+	tmp = (char **)malloc(sizeof(char *) * ((count_op(input)) + 1));
+	tmp[count_op(input) + 1]  = 0;
 	tmp = create_tab( input, tmp);
 	while (tmp[i])
 	{
@@ -57,7 +54,7 @@ t_cmd	*parse_input(const char *input)
 		if (!new_node)
 		{
 			free_cmd_node(head);
-			free_tab((void **)cmd->args, 0, 1);
+			free_tab((void **)new_node->args, 0, 1);
 			return (NULL);
 		}
 		else if (i == 0)
@@ -67,6 +64,6 @@ t_cmd	*parse_input(const char *input)
 		i++;
 	}
 	print_node(head);
-	free_tab((void **)cmd->args, 0, 1);
+	free_tab((void **)new_node->args, 0, 1);
 	return (head);
 }

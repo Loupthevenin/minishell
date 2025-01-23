@@ -3,24 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:05:14 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/17 10:46:22 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:21:35 by kleung-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // ici on cree une node;
-t_cmd	*create_node(char **args)
+t_cmd	*create_node(char **arg)
 {
 	t_cmd	*new_node;
 
 	new_node = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new_node)
 		return (NULL);
-	new_node->args = args;
+	new_node->args = arg;
+	new_node->op = NULL;
 	new_node->infile = NULL;
 	new_node->outfile = NULL;
 	new_node->is_append = 0;

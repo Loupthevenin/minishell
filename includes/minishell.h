@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 00:10:54 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/22 09:49:19 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:14:10 by kleung-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int					ft_nbrlen(int n);
 int					strings_size(const char *input, t_shell *shell);
 char				*format_input(const char *input, t_shell *shell);
 int					cmp(const char *s1, const char *s2);
+int					cmp_char(char c1, char c2);
 char				*ft_join(char *s1, char *s2);
 char				*ft_dup(char *s1, char *s2);
 char				**split_cmd(char **s, int j, t_cmd *cmd);
@@ -90,9 +91,14 @@ int					if_cmd(const char *s);
 int					if_sub_cmd(const char *s);
 int					ft_sp(char c);
 char				*malloc_word_arg(const char *s, int delimiter_type);
-int					count_word(const char *arg, int code);
+int					count_op(const char *arg);
+int					count_word_sp(const char *arg);
 char				**split_input(const char *s);
 char				**split_arg(const char *s);
+char				**create_tab(const char *s, char **tab);
+int					len_tab(const char *s, int i);
+char				*fill_args(const char *s, int j, char *result);
+char				*mall_tab(const char *s, int i, char *result);
 
 // exec
 void				fork_processes(t_cmd *cmd, t_shell *shell, int *fd,
@@ -116,6 +122,6 @@ void				builtin_exit(t_shell *shell, t_cmd *cmd);
 
 // main
 void				setup_signals(int is_parent);
-t_cmd				*parse_input(const char *input, t_shell *shell);
+t_cmd				*parse_input(const char *input);
 void				exec_cmd(t_cmd *cmd, t_shell *shell);
 #endif

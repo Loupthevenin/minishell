@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../includes/minishell.h"
+
 //	len_tab | fill_args | mall_tab
 
 // for tab
@@ -20,9 +22,9 @@ int	len_tab(const char *s, int i)
 	count = 0;
 	while (s[i + count])
 	{
-		while (s[i + count] && cmp('|', s[i + count]))
+		while (s[i + count] && cmp_char('|', s[i + count]))
 			i++;
-		while (s[i + count] && !cmp('|', s[i + count]))
+		while (s[i + count] && !cmp_char('|', s[i + count]))
 			count++;
 		printf("len_02 = [%c] OK\n", s[i + count]);
 		printf("len_02 = [%d] OK\n", count);
@@ -40,9 +42,9 @@ char	*fill_args(const char *s, int j, char *result)
 	while (s[k])
 	{
 		j = 0;
-		while (s[k] && cmp('|', s[k]))
+		while (s[k] && cmp_char('|', s[k]))
 			k++;
-		while (s[k] && !cmp('|', s[k]))
+		while (s[k] && !cmp_char('|', s[k]))
 			result[j++] = s[k++];
 		result[j] = 0;
 	}
@@ -71,10 +73,15 @@ char	*mall_tab(const char *s, int i, char *result)
 // split + fill args on OP
 char	**create_tab(const char *s, char **tab)
 {
+	int	j;
+	int	i;
+
+	i = 0;
+	j = 0;
 	while (s[i])
 	{
-		temp[j] = mall_tab(s, i, temp[j]);
-		temp[j] = fill_args(s, i, temp[j]);
+		tab[j] = mall_tab(s, i, tab[j]);
+		tab[j] = fill_args(s, i, tab[j]);
 		while (s[i] && if_op_char(s, i))
 			i++;
 		while (s[i] && !if_op_char(s, i))
