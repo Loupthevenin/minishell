@@ -6,11 +6,35 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 18:24:42 by kleung-t          #+#    #+#             */
-/*   Updated: 2025/01/19 17:18:22 by kleung-t         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:40:39 by kleung-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+//	if_op_char | if_op | if_cmd | if_sub_cmd | if_sp
+
+// returns 1 if identical
+int	if_op_char(const char *s, int i)
+{
+	if (!s)
+		return (0);
+	if (s[i] == '<' || s[i] == '>')
+		return (1);
+	return (0);
+}
+
+// returns 1 if identical
+int	if_op(const char *s)
+{
+	if (!s || !*s)
+		return (0);
+	if (!strncmp(s, "<<", 2) || !strncmp(s, ">>", 2))
+		return (1);
+	if (*s == '<' || *s == '>')
+		return (1);
+	return (0);
+}
 
 //returns 1 if found
 int	if_cmd(const char *s)
@@ -33,22 +57,6 @@ int	if_sub_cmd(const char *s)
 		return (1);
 	else
 		return (0);
-}
-
-// returns 1 if identical
-int	cmp(const char *s1, const char *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i])
-	{
-		if (s1[i] == s2[i])
-			i++;
-		else
-			return (0);
-	}
-	return (1);
 }
 
 // return 1 if identical

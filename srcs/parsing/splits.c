@@ -6,38 +6,16 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:52:09 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/19 21:19:49 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:33:56 by kleung-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// 1 = OP, 2 = TOKEN
-char	*malloc_word_arg(const char *s, int delimiter_type)
-{
-	int		i;
-	char	*word;
+//	count_op | count_word_sp | split_cmd | split_input | split_arg
 
-	i = 0;
-	while (s[i] && ((delimiter_type == 1 && !if_op(s)) || (delimiter_type == 2
-				&& !ft_sp(s[i]))))
-		i++;
-	word = (char *)malloc(sizeof(char) * (i + 1));
-	if (!word)
-		return (NULL);
-	i = 0;
-	while (s[i] && ((delimiter_type == 1 && !if_op(s)) || (delimiter_type == 2
-				&& !ft_sp(s[i]))))
-	{
-		word[i] = s[i];
-		i++;
-	}
-	word[i] = '\0';
-	return (word);
-}
-
-// 1 = OP, 2 = TOKEN
-int	count_word(const char *arg, int code)
+// on OP
+int	count_op(char *arg)
 {
 	int	i;
 	int	count;
@@ -46,14 +24,32 @@ int	count_word(const char *arg, int code)
 	count = 1;
 	while (arg[i])
 	{
-		if ((code == 1 && if_op_char(arg, i)) || (code == 2 && !ft_sp(arg[i])))
-		{
+		while (if_op_char(arg[i]))
+			i++;
+		while (!if_op_char(arg[i]))
+			i++;
+		if (if_op_char(arg[i]))
 			count++;
-			while (arg[i] && ((code == 1 && if_op_char(arg, i)) || (code == 2
-						&& !ft_sp(arg[i]))))
-				i++;
-		}
-		i++;
+	}
+	return (count);
+}
+
+// on SP
+int	count_word_sp(char *arg)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 1;
+	while (arg[i])
+	{
+		while (ft_sp(arg, i))
+			i++;
+		while (ft_sp(arg, i))
+			i++;
+		if (ft_sp(arg, i))
+			count++;
 	}
 	return (count);
 }
