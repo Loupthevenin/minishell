@@ -6,37 +6,13 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 18:24:36 by kleung-t          #+#    #+#             */
-/*   Updated: 2025/01/23 17:24:07 by kleung-t         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:27:42 by kleung-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// 	malloc_word_arg | cmp | ft_join | ft_dup | set_args 
-
-// 1 = OP, 2 = TOKEN
-char	*malloc_word_arg(const char *s, int delimiter_type)
-{
-	int		i;
-	char	*word;
-
-	i = 0;
-	while (s[i] && ((delimiter_type == 1 && !if_op(s))
-			|| (delimiter_type == 2 && !ft_sp(s[i]))))
-		i++;
-	word = (char *)malloc(sizeof(char) * (i + 1));
-	if (!word)
-		return (NULL);
-	i = 0;
-	while (s[i] && ((delimiter_type == 1 && !if_op(s))
-			|| (delimiter_type == 2 && !ft_sp(s[i]))))
-	{
-		word[i] = s[i];
-		i++;
-	}
-	word[i] = '\0';
-	return (word);
-}
+// 	cmp | cmp_char | ft_join | ft_dup | set_args 
 
 // returns 1 if identical
 int	cmp(const char *s1, const char *s2)
