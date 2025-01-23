@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:52:09 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/23 16:33:56 by kleung-t         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:19:21 by kleung-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //	count_op | count_word_sp | split_cmd | split_input | split_arg
 
 // on OP
-int	count_op(char *arg)
+int	count_op(const char *arg)
 {
 	int	i;
 	int	count;
@@ -24,18 +24,18 @@ int	count_op(char *arg)
 	count = 1;
 	while (arg[i])
 	{
-		while (if_op_char(arg[i]))
+		while (if_op_char(arg, i))
 			i++;
-		while (!if_op_char(arg[i]))
+		while (!if_op_char(arg, i))
 			i++;
-		if (if_op_char(arg[i]))
+		if (if_op_char(arg, i))
 			count++;
 	}
 	return (count);
 }
 
 // on SP
-int	count_word_sp(char *arg)
+int	count_word_sp(const char *arg)
 {
 	int	i;
 	int	count;
@@ -44,11 +44,11 @@ int	count_word_sp(char *arg)
 	count = 1;
 	while (arg[i])
 	{
-		while (ft_sp(arg, i))
+		while (ft_sp(arg[i]))
 			i++;
-		while (ft_sp(arg, i))
+		while (ft_sp(arg[i]))
 			i++;
-		if (ft_sp(arg, i))
+		if (ft_sp(arg[i]))
 			count++;
 	}
 	return (count);
@@ -89,7 +89,7 @@ char	**split_input(const char *s)
 
 	if (!s)
 		return (NULL);
-	result = (char **)malloc(sizeof(char *) * (count_word(s, 1) + 1));
+	result = (char **)malloc(sizeof(char *) * (count_op(s) + 1));
 	if (!result)
 		return (NULL);
 	i = 0;
@@ -119,7 +119,7 @@ char	**split_arg(const char *s)
 
 	if (!s)
 		return (NULL);
-	result = (char **)malloc(sizeof(char *) * (count_word(s, 2) + 1));
+	result = (char **)malloc(sizeof(char *) * (count_word_sp(s) + 1));
 	if (!result)
 		return (NULL);
 	i = 0;

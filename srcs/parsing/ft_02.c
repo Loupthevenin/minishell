@@ -6,13 +6,13 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 18:24:42 by kleung-t          #+#    #+#             */
-/*   Updated: 2025/01/23 16:40:39 by kleung-t         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:15:21 by kleung-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-//	if_op_char | if_op | if_cmd | if_sub_cmd | if_sp
+//	if_op_char | if_op | if_cmd | if_sub_cmd | cmp
 
 // returns 1 if identical
 int	if_op_char(const char *s, int i)
@@ -58,6 +58,7 @@ int	if_sub_cmd(const char *s)
 	else
 		return (0);
 }
+
 
 // return 1 if identical
 int	ft_sp(char c)

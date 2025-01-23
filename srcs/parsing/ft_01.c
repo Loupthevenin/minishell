@@ -6,13 +6,37 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 18:24:36 by kleung-t          #+#    #+#             */
-/*   Updated: 2025/01/23 16:41:04 by kleung-t         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:24:07 by kleung-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// 	cmp | ft_join | ft_dup | set_args
+// 	malloc_word_arg | cmp | ft_join | ft_dup | set_args 
+
+// 1 = OP, 2 = TOKEN
+char	*malloc_word_arg(const char *s, int delimiter_type)
+{
+	int		i;
+	char	*word;
+
+	i = 0;
+	while (s[i] && ((delimiter_type == 1 && !if_op(s))
+			|| (delimiter_type == 2 && !ft_sp(s[i]))))
+		i++;
+	word = (char *)malloc(sizeof(char) * (i + 1));
+	if (!word)
+		return (NULL);
+	i = 0;
+	while (s[i] && ((delimiter_type == 1 && !if_op(s))
+			|| (delimiter_type == 2 && !ft_sp(s[i]))))
+	{
+		word[i] = s[i];
+		i++;
+	}
+	word[i] = '\0';
+	return (word);
+}
 
 // returns 1 if identical
 int	cmp(const char *s1, const char *s2)
@@ -28,6 +52,14 @@ int	cmp(const char *s1, const char *s2)
 			return (0);
 	}
 	return (1);
+}
+
+int	cmp_char(char c1, char c2)
+{
+	if (c1 == c2)
+		return (1);
+	else
+		return (0);
 }
 
 //adds [s2] after [s1]
