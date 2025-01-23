@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:06:28 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/19 17:24:57 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/23 14:49:27 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ static void	exec_cmd_loop(t_cmd *cmd, t_shell *shell, int *fd, int pipe_in)
 			close(fd[1]);
 		current = current->next;
 	}
+	if (fd[0] != -1)
+		close(fd[0]);
 }
 
 void	exec_cmd(t_cmd *cmd, t_shell *shell)

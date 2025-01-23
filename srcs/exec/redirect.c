@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 11:29:21 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/17 10:28:20 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/23 14:43:38 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void	redirect_output(t_cmd *cmd, t_shell *shell, int pipe_out)
 			perror("dup2 (redirect_output)");
 			exit(EXIT_FAILURE);
 		}
-		close(pipe_out);
+		if (pipe_out != -1)
+			close(pipe_out);
 	}
 }
