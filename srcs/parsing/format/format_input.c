@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 08:43:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/23 14:47:13 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/24 23:51:24 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	handle_dollar(const char **input, char *result, int *i,
 			*i += ft_strlen(key);
 			free(key);
 		}
-		(*input) += 2;
+		(*input) += 1;
 	}
 	else if (ft_isalnum(*(*input + 1)) || *(*input + 1) == '_')
 		set_env_var(shell, i, input, result);

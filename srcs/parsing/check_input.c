@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 14:27:28 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/24 14:34:25 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/25 00:04:23 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 // > : "minishell: syntax error near unexpected token `newline`"
 // / : "minishell: /: Is a directory"
 // // : "minishell: //: Is a directory"
+// $ : "minishell: $: command not found" actuellement quit minishell
 void	check_input(const char *input, t_shell *shell)
 {
 	(void)input;
