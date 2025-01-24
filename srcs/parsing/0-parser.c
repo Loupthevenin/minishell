@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:02:48 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/24 13:27:13 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:27:10 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ t_cmd	*parse_input(const char *input, t_shell *shell)
 	t_cmd	*head;
 
 	head = NULL;
+	// A IMPLEMENTER CHECK TOUT LES CAS DU DEBUT DU TABLEAU XLSX;
+	/* check_input(input, shell); */
 	formatted = format_input(input, shell);
 	if (!formatted)
 		return (NULL);

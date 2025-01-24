@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 00:10:54 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/24 14:18:00 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:29:10 by ltheveni         ###   ########.fr       */
 /*   Updated: 2025/01/23 17:54:32 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -86,6 +86,7 @@ int					ft_nbrlen(int n);
 int					is_quote(char c, t_split *state);
 
 // parsing
+void				check_input(const char *input, t_shell *shell);
 int					strings_size(const char *input, t_shell *shell);
 char				*format_input(const char *input, t_shell *shell);
 char				*add_spaces_on_operator(const char *input);
