@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 15:05:25 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/23 22:59:40 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/24 23:13:58 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	**split_arg(const char *s)
 		return (NULL);
 	state = (t_split){0, 0, -1, 0};
 	if (!process_split_arg(s, result, &state))
-		return (NULL);
+		return (free_tab((void **)result, 0, 1), NULL);
 	result[state.index] = NULL;
 	return (result);
 }

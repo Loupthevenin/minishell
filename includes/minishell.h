@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 00:10:54 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/24 14:29:10 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/24 17:50:38 by ltheveni         ###   ########.fr       */
 /*   Updated: 2025/01/23 17:54:32 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -132,4 +132,5 @@ void				builtin_exit(t_shell *shell, t_cmd *cmd);
 void				setup_signals(int is_parent);
 t_cmd				*parse_input(const char *input, t_shell *shell);
 void				exec_cmd(t_cmd *cmd, t_shell *shell);
+extern int			g_signal;
 #endif

@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:06:28 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/23 14:49:27 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/24 15:19:18 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,26 @@ static void	setup_fd(t_shell *shell, t_cmd *current, int *fd)
 	}
 }
 
-static void	wait_for_child(void)
+static void	wait_for_child(t_shell *shell)
 {
 	int		status;
+	int		signal;
 	pid_t	pid;
 
 	pid = wait(&status);
 	while (pid > 0)
+	{
+		if (WIFEXITED(status))
+			shell->last_exit = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+		{
+			signal = WTERMSIG(status);
+			shell->last_exit = 128 + signal;
+			if (signal == SIGQUIT)
+				ft_putstr_fd("Quit: 3\n", 2);
+		}
 		pid = wait(&status);
+	}
 }
 
 static void	exec_cmd_loop(t_cmd *cmd, t_shell *shell, int *fd, int pipe_in)
@@ -83,5 +95,5 @@ void	exec_cmd(t_cmd *cmd, t_shell *shell)
 
 	pipe_in = -1;
 	exec_cmd_loop(cmd, shell, fd, pipe_in);
-	wait_for_child();
+	wait_for_child(shell);
 }

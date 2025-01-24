@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:05:14 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/23 22:54:05 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/24 23:05:19 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,17 @@ void	free_cmd_node(t_cmd *head)
 	{
 		temp = head;
 		head = head->next;
-		i = 0;
 		if (temp->args)
 		{
+			i = 0;
 			while (temp->args[i])
 			{
 				free(temp->args[i]);
+				temp->args[i] = NULL;
 				i++;
 			}
 			free(temp->args);
+			temp->args = NULL;
 		}
 		if (temp->infile)
 			free(temp->infile);

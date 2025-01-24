@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 11:29:21 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/23 14:43:38 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/24 22:41:15 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void	handle_file_error(t_cmd *cmd, t_shell *shell, int exit_error)
 {
 	free_cmd_node(cmd);
 	free_shell(shell);
-	shell->last_exit = exit_error;
 	exit(exit_error);
 }
 

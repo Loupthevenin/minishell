@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 08:33:36 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/17 10:45:09 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/24 22:39:58 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	handle_here_doc(t_cmd *cmd, t_shell *shell)
 		perror("Error creating here_doc");
 		free_cmd_node(cmd);
 		free_shell(shell);
-		shell->last_exit = EXIT_FAILURE;
 		exit(EXIT_FAILURE);
 	}
 	while (1)

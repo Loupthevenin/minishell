@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:01:37 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/23 19:46:24 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/24 23:04:12 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,15 @@ static void	clean_shell(t_cmd *cmd, t_shell *shell)
 	rl_clear_history();
 }
 
+static void	update_signal(t_shell *shell)
+{
+	if (g_signal == SIGINT)
+	{
+		shell->last_exit = 130;
+		g_signal = 0;
+	}
+}
+
 static void	main_loop(t_shell *shell)
 {
 	char	*input;
@@ -55,9 +64,12 @@ static void	main_loop(t_shell *shell)
 			free(input);
 			continue ;
 		}
+		update_signal(shell);
 		cmd = parse_input(input, shell);
 		free(input);
 		exec_cmd(cmd, shell);
+		free_cmd_node(cmd);
+		cmd = NULL;
 	}
 	clean_shell(cmd, shell);
 }
