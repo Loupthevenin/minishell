@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:02:48 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/23 22:48:07 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/24 13:27:13 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,20 @@ t_cmd	*parse_input(const char *input, t_shell *shell)
 {
 	char	**tmp;
 	char	*formatted;
+	char	*with_spaces;
 	t_cmd	*head;
 
 	head = NULL;
 	formatted = format_input(input, shell);
 	if (!formatted)
 		return (NULL);
-	printf("%s\n", formatted);
-	tmp = split_input(formatted);
-	print_tab(tmp);
+	with_spaces = add_spaces_on_operator(formatted);
 	free(formatted);
+	if (!with_spaces)
+		return (NULL);
+	printf("%s\n", with_spaces);
+	tmp = split_input(with_spaces);
+	print_tab(tmp);
 	if (!tmp)
 		return (NULL);
 	if (!loop_parse_input(tmp, &head))

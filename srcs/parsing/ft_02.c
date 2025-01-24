@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 18:24:42 by kleung-t          #+#    #+#             */
-/*   Updated: 2025/01/23 17:28:27 by kleung-t         ###   ########.fr       */
+/*   Updated: 2025/01/24 13:04:36 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	if_op(const char *s)
 {
 	if (!s || !*s)
 		return (0);
-	if (!strncmp(s, "<<", 2) || !strncmp(s, ">>", 2))
+	if (!ft_strncmp(s, "<<", 2) || !ft_strncmp(s, ">>", 2))
 		return (1);
 	if (*s == '<' || *s == '>')
 		return (1);
