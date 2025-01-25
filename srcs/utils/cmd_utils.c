@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:05:14 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/24 23:05:19 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/25 10:26:44 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,16 +80,16 @@ void	free_cmd_node(t_cmd *head)
 			while (temp->args[i])
 			{
 				free(temp->args[i]);
-				temp->args[i] = NULL;
 				i++;
 			}
 			free(temp->args);
-			temp->args = NULL;
 		}
 		if (temp->infile)
 			free(temp->infile);
 		if (temp->outfile)
 			free(temp->outfile);
+		if (temp->delimiter_here_doc)
+			free(temp->delimiter_here_doc);
 		free(temp);
 	}
 }
