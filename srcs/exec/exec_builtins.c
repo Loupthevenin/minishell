@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 18:07:41 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/19 17:24:34 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/25 20:31:21 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	is_builtins(t_cmd *cmd)
 {
+	if (!cmd->args[0])
+		return (0);
 	if (!ft_strcmp(cmd->args[0], "echo"))
 		return (1);
 	else if (!ft_strcmp(cmd->args[0], "cd"))

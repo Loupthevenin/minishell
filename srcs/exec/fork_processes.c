@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:38:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/25 12:03:03 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/25 20:41:09 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	fork_processes(t_cmd *cmd, t_shell *shell, int *fd, int pipe_in)
 	if (shell->pid == 0)
 	{
 		setup_signals(0);
-		if (cmd->infile)
+		if (cmd->infile || cmd->is_here_doc)
 			redirect_input(cmd, shell, -1);
 		else if (pipe_in != -1)
 			redirect_input(cmd, shell, pipe_in);
