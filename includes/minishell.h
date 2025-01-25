@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 00:10:54 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/24 17:50:38 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/25 12:19:48 by ltheveni         ###   ########.fr       */
 /*   Updated: 2025/01/23 17:54:32 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -84,6 +84,8 @@ void				update_env_var(t_env *env, char *key, char *new_value);
 // utils parsing
 int					ft_nbrlen(int n);
 int					is_quote(char c, t_split *state);
+void				rm_element_tab(char **tab, int index_remove);
+char				**ft_dup_array(char **args);
 
 // parsing
 void				check_input(const char *input, t_shell *shell);
@@ -103,6 +105,7 @@ int					if_sub_cmd(const char *s);
 int					ft_sp(char c);
 char				**split_input(const char *s);
 char				**split_arg(const char *s);
+void				set_operator(t_cmd **new_node);
 char				**create_tab(const char *s, char **tab);
 int					len_tab(const char *s, int i);
 char				*fill_args(const char *s, int j, char *result);

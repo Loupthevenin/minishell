@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:02:48 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/24 22:51:45 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/25 11:26:07 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ static void	print_node(t_cmd *head)
 		j = 0;
 		while (current->args[j])
 			printf("token %d : [%s]\n", i, current->args[j++]);
+		printf("token %d infile : [%s]\n", i, current->infile);
+		printf("token %d outfile : [%s]\n", i, current->outfile);
+		printf("token %d here_doc_delimiter : [%s]\n", i,
+				current->delimiter_here_doc);
 		current = current->next;
 		i++;
 	}
@@ -59,6 +63,7 @@ static int	loop_parse_input(char **tmp, t_cmd **head)
 			free_tab((void **)tmp, 0, 1);
 			return (0);
 		}
+		set_operator(&new_node);
 		if (i == 0)
 			*head = new_node;
 		else
