@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 00:10:54 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/25 12:19:48 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/25 16:31:06 by ltheveni         ###   ########.fr       */
 /*   Updated: 2025/01/23 17:54:32 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -105,6 +105,9 @@ int					if_sub_cmd(const char *s);
 int					ft_sp(char c);
 char				**split_input(const char *s);
 char				**split_arg(const char *s);
+void				assign_operator(t_cmd **current_node, char **args,
+						int op_index);
+void				multiple_operator(t_cmd **current_node, int count);
 void				set_operator(t_cmd **new_node);
 char				**create_tab(const char *s, char **tab);
 int					len_tab(const char *s, int i);
