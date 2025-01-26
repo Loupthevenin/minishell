@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 11:29:21 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/26 16:32:50 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/26 19:53:10 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	check_file_permission(t_cmd *cmd, t_shell *shell, char *file,
 	}
 	else if (mode == 1)
 	{
-		if (access(file, W_OK) != 0)
+		if (access(file, W_OK) != 0 && access(file, F_OK) == 0)
 		{
 			ft_putstr_fd("minishell: Permission denied: ", 2);
 			ft_putendl_fd(file, 2);
