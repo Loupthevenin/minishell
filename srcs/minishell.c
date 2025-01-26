@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:01:37 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/26 14:41:43 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/26 22:46:50 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,19 @@ static void	clean_shell(t_cmd *cmd, t_shell *shell)
 	rl_clear_history();
 }
 
-static void	update_signal(t_shell *shell)
+static void	handle_main_loop(t_shell *shell, t_cmd *cmd, char *input)
 {
+	add_history(input);
 	if (g_signal == SIGINT)
 	{
 		shell->last_exit = 130;
 		g_signal = 0;
 	}
+	cmd = parse_input(input, shell);
+	free(input);
+	exec_cmd(cmd, shell);
+	free_cmd_node(cmd);
+	cmd = NULL;
 }
 
 static void	main_loop(t_shell *shell)
@@ -63,12 +69,7 @@ static void	main_loop(t_shell *shell)
 			free(input);
 			continue ;
 		}
-		update_signal(shell);
-		cmd = parse_input(input, shell);
-		free(input);
-		exec_cmd(cmd, shell);
-		free_cmd_node(cmd);
-		cmd = NULL;
+		handle_main_loop(shell, cmd, input);
 	}
 	clean_shell(cmd, shell);
 }
@@ -80,7 +81,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	init_shell(&shell, envp);
-	/* setup_signals(1); */
+	setup_signals(1);
 	main_loop(&shell);
 	return (0);
 }
