@@ -6,11 +6,33 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 08:33:36 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/24 22:39:58 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/26 16:15:49 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static int	handle_break(size_t len_delimiter, size_t len_line, char *line,
+		char *delimiter)
+{
+	if (len_delimiter == 0)
+	{
+		if (len_line == 0)
+		{
+			free(line);
+			return (0);
+		}
+	}
+	else
+	{
+		if (len_line == len_delimiter && !ft_strcmp(line, delimiter))
+		{
+			free(line);
+			return (0);
+		}
+	}
+	return (1);
+}
 
 static int	break_here_doc(t_cmd *cmd, char *line)
 {
@@ -18,22 +40,13 @@ static int	break_here_doc(t_cmd *cmd, char *line)
 	size_t	len_delimiter;
 	size_t	len_line;
 
+	if (!line)
+		return (1);
 	delimiter = cmd->delimiter_here_doc;
 	len_delimiter = ft_strlen(delimiter);
 	len_line = ft_strlen(line);
-	if (!line)
+	if (!handle_break(len_delimiter, len_line, line, delimiter))
 		return (1);
-	if ((len_delimiter == 0 && len_line == 1 && line[0] == '\n'))
-	{
-		free(line);
-		return (1);
-	}
-	if (len_delimiter > 0 && !ft_strncmp(line, delimiter, len_delimiter)
-		&& line[len_delimiter] == '\n')
-	{
-		free(line);
-		return (1);
-	}
 	return (0);
 }
 
@@ -54,7 +67,7 @@ void	handle_here_doc(t_cmd *cmd, t_shell *shell)
 	}
 	while (1)
 	{
-		line = readline("here_doc> ");
+		line = readline("> ");
 		if (break_here_doc(cmd, line))
 			break ;
 		ft_putendl_fd(line, fd);

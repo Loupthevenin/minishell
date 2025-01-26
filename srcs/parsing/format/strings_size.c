@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 09:38:47 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/24 23:52:19 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/26 15:35:41 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static int	set_count_env_var(t_shell *shell, const char **input)
 	}
 	while (ft_isalnum(**input) || **input == '_')
 		(*input)++;
-	(*input)--;
 	return (count);
 }
 
@@ -57,16 +56,23 @@ static int	handle_dollar(const char **input, t_shell *shell)
 	int	count;
 
 	count = 0;
-	if (*(*input + 1) == '?')
+	if (*(*input + 1) == '?' || ft_isalnum(*(*input + 1)) || *(*input
+			+ 1) == '_')
 	{
-		count += ft_nbrlen(shell->last_exit);
-		(*input) += 1;
-		return (count);
+		if (*(*input + 1) == '?')
+		{
+			count += ft_nbrlen(shell->last_exit);
+			(*input) += 2;
+			return (count);
+		}
+		else if (ft_isalnum(*(*input + 1)) || *(*input + 1) == '_')
+			return (set_count_env_var(shell, input));
 	}
-	if (ft_isalnum(*(*input + 1)) || *(*input + 1) == '_')
-		return (set_count_env_var(shell, input));
-	count++;
-	(*input)++;
+	else
+	{
+		count++;
+		(*input)++;
+	}
 	return (count);
 }
 
@@ -100,8 +106,7 @@ int	strings_size(const char *input, t_shell *shell)
 			count += handle_dollar(&input, shell);
 			continue ;
 		}
-		else
-			count++;
+		count++;
 		input++;
 	}
 	return (check_quotes(in_single_quote, in_double_quote, count));

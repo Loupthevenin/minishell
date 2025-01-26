@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:38:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/25 20:41:09 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/26 10:05:26 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static void	handle_fork_error(t_cmd *cmd, t_shell *shell)
 
 static void	cleanup_fork(t_cmd *cmd, t_shell *shell)
 {
+	if (cmd->is_here_doc && cmd->infile)
+		unlink(cmd->infile);
 	free_cmd_node(cmd);
 	free_shell(shell);
 	shell->last_exit = EXIT_SUCCESS;

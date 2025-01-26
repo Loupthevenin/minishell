@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 00:10:54 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/25 20:08:51 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/26 16:32:48 by ltheveni         ###   ########.fr       */
 /*   Updated: 2025/01/23 17:54:32 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -64,6 +64,7 @@ void				free_tab(void **tabs, int size, int is_null);
 void				free_shell(t_shell *shell);
 char				*get_value_env(t_env *env, const char *key);
 long long			ft_atoi_exit(const char *str, int *overflow);
+void				dup2_exit(char *s);
 
 // utils cmd
 t_cmd				*create_node(char **args);
@@ -82,6 +83,8 @@ int					get_size_env(t_env *env);
 void				update_env_var(t_env *env, char *key, char *new_value);
 void				update_shlvl(t_shell *shell);
 void				add_default_env_vars(t_env **env);
+void				remove_quotes(t_cmd **cmd);
+char				*remove_s_quotes(char *s);
 
 // utils parsing
 int					ft_nbrlen(int n);
@@ -106,6 +109,7 @@ int					if_cmd(const char *s);
 int					if_sub_cmd(const char *s);
 int					ft_sp(char c);
 char				**split_input(const char *s);
+int					count_word_arg(const char *arg);
 char				**split_arg(const char *s);
 void				assign_operator(t_cmd **current_node, char **args,
 						int op_index);

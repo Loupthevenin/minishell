@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 11:29:21 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/25 21:01:13 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/26 16:32:50 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,15 @@ void	redirect_input(t_cmd *cmd, t_shell *shell, int pipe_in)
 		check_file_permission(cmd, shell, cmd->infile, 0);
 		infile = open_file(cmd->infile, O_RDONLY);
 		if (dup2(infile, STDIN_FILENO) == -1)
-		{
-			perror("infile");
-			exit(EXIT_FAILURE);
-		}
+			dup2_exit("infile");
 		close(infile);
 		if (cmd->is_here_doc)
-			unlink(cmd->infile);
+			close(pipe_in);
 	}
 	if (pipe_in != -1)
 	{
 		if (dup2(pipe_in, STDIN_FILENO) == -1)
-		{
-			perror("dup2 (redirect_input)");
-			exit(EXIT_FAILURE);
-		}
+			dup2_exit("dup2 (redirect_input)");
 		close(pipe_in);
 	}
 }
@@ -98,19 +92,13 @@ void	redirect_output(t_cmd *cmd, t_shell *shell, int pipe_out)
 		else
 			outfile = open_file(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC);
 		if (dup2(outfile, STDOUT_FILENO) == -1)
-		{
-			perror("outfile");
-			exit(EXIT_FAILURE);
-		}
+			dup2_exit("outfile");
 		close(outfile);
 	}
 	if (pipe_out != -1)
 	{
 		if (dup2(pipe_out, STDOUT_FILENO) == -1)
-		{
-			perror("dup2 (redirect_output)");
-			exit(EXIT_FAILURE);
-		}
+			dup2_exit("dup2 (redirect_output)");
 		if (pipe_out != -1)
 			close(pipe_out);
 	}

@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 08:43:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/24 23:51:24 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/26 15:41:18 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static void	set_env_var(t_shell *shell, int *i, const char **input,
 	}
 	while (ft_isalnum(**input) || **input == '_')
 		(*input)++;
-	(*input)--;
 }
 
 static void	handle_dollar(const char **input, char *result, int *i,
@@ -58,19 +57,28 @@ static void	handle_dollar(const char **input, char *result, int *i,
 {
 	char	*key;
 
-	if (*(*input + 1) == '?')
+	if (*(*input + 1) == '?' || ft_isalnum(*(*input + 1)) || *(*input
+			+ 1) == '_')
 	{
-		key = ft_itoa(shell->last_exit);
-		if (key)
+		if (*(*input + 1) == '?')
 		{
-			ft_strlcpy(result + *i, key, ft_strlen(key) + 1);
-			*i += ft_strlen(key);
-			free(key);
+			key = ft_itoa(shell->last_exit);
+			if (key)
+			{
+				ft_strlcpy(result + *i, key, ft_strlen(key) + 1);
+				*i += ft_strlen(key);
+				free(key);
+			}
+			(*input) += 2;
 		}
-		(*input) += 1;
+		else if (ft_isalnum(*(*input + 1)) || *(*input + 1) == '_')
+			set_env_var(shell, i, input, result);
 	}
-	else if (ft_isalnum(*(*input + 1)) || *(*input + 1) == '_')
-		set_env_var(shell, i, input, result);
+	else
+	{
+		result[(*i)++] = '$';
+		(*input)++;
+	}
 }
 
 static char	*format_loop(t_shell *shell, const char *input, char *result)
@@ -89,9 +97,11 @@ static char	*format_loop(t_shell *shell, const char *input, char *result)
 		else if (*input == '"' && !in_single_quote)
 			in_double_quote = !in_double_quote;
 		else if (*input == '$' && !in_single_quote)
+		{
 			handle_dollar(&input, result, &i, shell);
-		else
-			result[i++] = *input;
+			continue ;
+		}
+		result[i++] = *input;
 		input++;
 	}
 	result[i] = '\0';
