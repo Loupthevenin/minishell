@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 12:56:38 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/24 14:20:59 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/26 19:11:54 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,19 @@ static void	handle_operator_size(const char *input, int *i, int *count)
 
 static int	size_with_spaces(const char *input)
 {
-	int	i;
-	int	count;
+	int		i;
+	int		count;
+	t_split	state;
 
 	i = 0;
 	count = 0;
+	state = (t_split){0, 0, 0, 0};
 	while (input[i])
 	{
-		if (input[i] == '>' || input[i] == '<')
+		if (input[i] == '\'' || input[i] == '"')
+			is_quote(input[i], &state);
+		if ((input[i] == '>' || input[i] == '<') && !state.in_single_quote
+			&& !state.in_double_quote)
 			handle_operator_size(input, &i, &count);
 		else
 			count++;
@@ -74,27 +79,38 @@ static void	handle_operator(const char *input, int *i, int *j, char *result)
 	}
 }
 
-char	*add_spaces_on_operator(const char *input)
+static void	spaces_loop(const char *input, char *result)
 {
-	char	*result;
 	int		i;
 	int		j;
-	int		size;
+	t_split	state;
 
 	i = 0;
 	j = 0;
-	size = size_with_spaces(input);
-	result = (char *)malloc(sizeof(char) * (size + 1));
-	if (!result)
-		return (NULL);
+	state = (t_split){0, 0, 0, 0};
 	while (input[i])
 	{
-		if (input[i] == '>' || input[i] == '<')
+		if (input[i] == '\'' || input[i] == '"')
+			is_quote(input[i], &state);
+		if ((input[i] == '>' || input[i] == '<') && !state.in_single_quote
+			&& !state.in_double_quote)
 			handle_operator(input, &i, &j, result);
 		else
 			result[j++] = input[i];
 		i++;
 	}
 	result[j] = '\0';
+}
+
+char	*add_spaces_on_operator(const char *input)
+{
+	char	*result;
+	int		size;
+
+	size = size_with_spaces(input);
+	result = (char *)malloc(sizeof(char) * (size + 1));
+	if (!result)
+		return (NULL);
+	spaces_loop(input, result);
 	return (result);
 }
