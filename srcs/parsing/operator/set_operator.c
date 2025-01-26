@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:33:53 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/25 16:41:24 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/26 16:25:41 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,12 @@ void	assign_operator(t_cmd **current_node, char **args, int op_index)
 	}
 	else if (!ft_strcmp(args[op_index], "<<"))
 	{
-		(*current_node)->delimiter_here_doc = ft_strdup(args[op_index + 1]);
+		if (args[op_index + 1] && args[op_index + 1][0] == '"' && args[op_index
+			+ 1][1] == '\0')
+			(*current_node)->delimiter_here_doc = ft_strdup("");
+		else
+			(*current_node)->delimiter_here_doc = remove_s_quotes(args[op_index
+					+ 1]);
 		(*current_node)->is_here_doc = 1;
 	}
 }

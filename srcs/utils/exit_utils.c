@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_quote.c                                         :+:      :+:    :+:   */
+/*   exit_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/23 21:15:12 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/26 14:06:57 by ltheveni         ###   ########.fr       */
+/*   Created: 2025/01/26 16:28:56 by ltheveni          #+#    #+#             */
+/*   Updated: 2025/01/26 16:32:52 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-int	is_quote(char c, t_split *state)
+void	dup2_exit(char *s)
 {
-	if (c == '\'' && !(state->in_double_quote))
-		state->in_single_quote = !(state->in_single_quote);
-	else if (c == '"' && !(state->in_single_quote))
-		state->in_double_quote = !(state->in_double_quote);
-	return (state->in_single_quote || state->in_double_quote);
+	perror(s);
+	exit(EXIT_FAILURE);
 }

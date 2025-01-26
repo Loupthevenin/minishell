@@ -6,32 +6,11 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 15:05:25 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/24 23:13:58 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/26 15:01:52 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
-
-static int	count_word_arg(const char *arg)
-{
-	int		i;
-	int		count;
-	t_split	state;
-
-	state = (t_split){0, 0, 0, 0};
-	i = 0;
-	count = 0;
-	while (arg[i])
-	{
-		if (arg[i] == '\'' || arg[i] == '"')
-			is_quote(arg[i], &state);
-		if ((i == 0 || ft_sp(arg[i - 1])) && !ft_sp(arg[i])
-			&& !state.in_single_quote && !state.in_double_quote)
-			count++;
-		i++;
-	}
-	return (count);
-}
 
 static int	extract_word(const char *s, char **result, t_split *state, int i)
 {
