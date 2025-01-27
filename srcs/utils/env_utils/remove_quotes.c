@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 15:56:18 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/26 18:46:21 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/27 17:55:36 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*remove_s_quotes(char *s)
 	if (!s)
 		return (NULL);
 	len_s = ft_strlen(s);
-	if (len_s < 2 || s[0] != '"' || s[len_s - 1] != '"')
+	if (len_s < 2 || (s[0] != '"' && s[0] != '\'') || s[len_s - 1] != s[0])
 		return (ft_strdup(s));
 	result = (char *)malloc(sizeof(char) * (len_s - 1));
 	if (!result)

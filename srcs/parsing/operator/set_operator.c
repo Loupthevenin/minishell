@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:33:53 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/26 16:25:41 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/27 17:48:10 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,15 @@ void	assign_operator(t_cmd **current_node, char **args, int op_index)
 {
 	if (!ft_strcmp(args[op_index], ">"))
 	{
-		(*current_node)->outfile = ft_strdup(args[op_index + 1]);
+		(*current_node)->outfile = remove_s_quotes(args[op_index + 1]);
 	}
 	else if (!ft_strcmp(args[op_index], "<"))
 	{
-		(*current_node)->infile = ft_strdup(args[op_index + 1]);
+		(*current_node)->infile = remove_s_quotes(args[op_index + 1]);
 	}
 	else if (!ft_strcmp(args[op_index], ">>"))
 	{
-		(*current_node)->outfile = ft_strdup(args[op_index + 1]);
+		(*current_node)->outfile = remove_s_quotes(args[op_index + 1]);
 		(*current_node)->is_append = 1;
 	}
 	else if (!ft_strcmp(args[op_index], "<<"))
