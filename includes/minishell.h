@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 00:10:54 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/26 16:32:48 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/27 10:36:27 by ltheveni         ###   ########.fr       */
 /*   Updated: 2025/01/23 17:54:32 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -82,7 +82,7 @@ int					check_identifier_export(char *s);
 int					get_size_env(t_env *env);
 void				update_env_var(t_env *env, char *key, char *new_value);
 void				update_shlvl(t_shell *shell);
-void				add_default_env_vars(t_env **env);
+t_env				*add_default_env_vars(void);
 void				remove_quotes(t_cmd **cmd);
 char				*remove_s_quotes(char *s);
 

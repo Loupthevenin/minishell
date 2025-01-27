@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:01:37 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/26 22:46:50 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/27 10:36:53 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	init_shell(t_shell *shell, char **envp)
 	if (envp && *envp)
 		shell->env_list = double_array_to_list(envp);
 	else
-		add_default_env_vars(&shell->env_list);
+		shell->env_list = add_default_env_vars();
 	shell->pid = -1;
 	shell->n_pipes = 0;
 	shell->last_exit = 0;
