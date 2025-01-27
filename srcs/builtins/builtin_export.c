@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 15:50:28 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/22 08:23:31 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/27 11:59:22 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static void	print_export(t_env *env)
 	i = 0;
 	while (i < size)
 	{
-		printf("declare -x %s\n", sorted_copy[i]);
+		if (ft_strncmp(sorted_copy[i], "_=", 2))
+			printf("declare -x %s\n", sorted_copy[i]);
 		i++;
 	}
 	free_tab((void **)sorted_copy, 0, 1);
@@ -118,6 +119,7 @@ void	builtin_export(t_shell *shell, t_cmd *cmd)
 			ft_putstr_fd(cmd->args[i], 2);
 			ft_putstr_fd("': not a valid identifier\n", 2);
 			shell->last_exit = EXIT_FAILURE;
+			return ;
 		}
 		else
 			update_value(&shell->env_list, cmd->args[i]);

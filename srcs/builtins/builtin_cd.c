@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 15:46:20 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/22 08:27:14 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/27 12:10:57 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ static char	*set_target(t_shell *shell, t_cmd *cmd)
 		if (!target)
 			return (handle_error_target(shell, "OLDPWD"));
 		printf("%s\n", target);
+	}
+	else if (cmd->args[1] && cmd->args[2])
+	{
+		ft_putendl_fd("minishell: cd: too many arguments", 2);
+		shell->last_exit = EXIT_FAILURE;
+		return (NULL);
 	}
 	else
 		target = cmd->args[1];
