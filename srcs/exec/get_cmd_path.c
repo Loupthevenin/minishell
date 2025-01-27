@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:43:33 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/11 11:22:14 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/27 12:57:44 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,11 @@ char	*get_cmd_path(const char *cmd, char **envp)
 
 	if (ft_strchr(cmd, '/'))
 	{
-		if (access(cmd, X_OK) == 0)
-			return (ft_strdup(cmd));
-		else
+		if (access(cmd, F_OK) != 0)
 			return (NULL);
+		if (access(cmd, X_OK) != 0)
+			return (NULL);
+		return (ft_strdup(cmd));
 	}
 	dirs = get_path_dir(envp);
 	if (!dirs)
