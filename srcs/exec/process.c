@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:39:41 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/27 13:02:05 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/27 16:46:32 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,30 @@ static void	handle_error_file(t_cmd *cmd, t_shell *shell, char **envp)
 	handle_error_process(cmd, shell, envp, 127);
 }
 
+static void	handle_error_execve(t_cmd *cmd, t_shell *shell, char **envp,
+		int exit_error)
+{
+	if (exit_error == 126)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->args[0], 2);
+		ft_putendl_fd(": Permission denied", 2);
+		handle_error_process(cmd, shell, envp, exit_error);
+	}
+	else if (exit_error == 127)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->args[0], 2);
+		ft_putendl_fd(": No such file or directory", 2);
+		handle_error_process(cmd, shell, envp, exit_error);
+	}
+}
+
 void	process(t_cmd *cmd, t_shell *shell)
 {
 	char	*cmd_path;
 	char	**envp;
 
-	if (is_builtins(cmd))
-	{
-		exec_builtins(shell, cmd);
-		handle_error_process(cmd, shell, NULL, shell->last_exit);
-	}
 	envp = list_to_double_array(shell->env_list);
 	if (!envp)
 	{
@@ -55,7 +69,11 @@ void	process(t_cmd *cmd, t_shell *shell)
 	if (!cmd_path)
 		handle_error_file(cmd, shell, envp);
 	execve(cmd_path, cmd->args, envp);
-	perror("execve");
 	free(cmd_path);
+	if (errno == EACCES)
+		handle_error_execve(cmd, shell, envp, 126);
+	else if (errno == ENOENT)
+		handle_error_execve(cmd, shell, envp, 127);
+	perror("minishell");
 	handle_error_process(cmd, shell, envp, EXIT_FAILURE);
 }

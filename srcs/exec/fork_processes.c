@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:38:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/26 10:05:26 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/27 15:44:14 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ void	fork_processes(t_cmd *cmd, t_shell *shell, int *fd, int pipe_in)
 			redirect_output(cmd, shell, -1);
 		else if (cmd->next)
 			redirect_output(cmd, shell, fd[1]);
-		process(cmd, shell);
+		if (is_builtins(cmd))
+			exec_builtins(shell, cmd);
+		else
+			process(cmd, shell);
 		cleanup_fork(cmd, shell);
 	}
 	else if (shell->pid == -1)
