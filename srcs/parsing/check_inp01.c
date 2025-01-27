@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_id01.c                                       :+:      :+:    :+:   */
+/*   check_inp01.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 19:31:06 by kleung-t          #+#    #+#             */
-/*   Updated: 2025/01/25 19:37:31 by kleung-t         ###   ########.fr       */
+/*   Updated: 2025/01/27 17:41:23 by kleung-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-//	nb_op2 | nb_op | ft_op_limit | treat_checked | check_input
-
-/*
-
-// follow nb_op
-char	*nb_op2(char c, int i, int limit)
+static char	*nb_op2(char c, int i, int limit)
 {
 	int		j;
 	char	*msg;
@@ -45,8 +40,7 @@ char	*nb_op2(char c, int i, int limit)
 	return (msg);
 }
 
-// print of the op needed
-char	*nb_op(char c, int i, int limit)
+static char	*nb_op(char c, int i, int limit)
 {
 	int		j;
 	char	*msg;
@@ -73,8 +67,7 @@ char	*nb_op(char c, int i, int limit)
 	return (msg);
 }
 
-// defines limit of print op
-int	ft_op_limit(char c)
+static int	op_limit(char c)
 {
 	int	limit;
 
@@ -87,8 +80,7 @@ int	ft_op_limit(char c)
 	return (limit);
 }
 
-// nb of op found
-int	treat_checked(char *s, int i)
+static int	treat_checked(char *s, int i)
 {
 	int		j;
 	char	c;
@@ -103,7 +95,7 @@ int	treat_checked(char *s, int i)
 	return (j);
 }
 
-char	*check_input(char *input)
+char	*check_input(const char *input, t_shell *shell)
 {
 	int		i;
 	int		j;
@@ -111,21 +103,20 @@ char	*check_input(char *input)
 	char	*s;
 
 	i = 0;
-	while (input[i])
+	s = ft_strdup(input);
+	(void)shell;
+	while (s[i])
 	{
-		if (input[i] == '/' || input[i] == '<' || input[i] == '>')
+		if (s[i] == '/' || s[i] == '<' || s[i] == '>')
 		{
-			limit = ft_op_limit(input[i]);
-			printf("Limit = %d \n", limit);
-			j = treat_checked(input, i);
-			printf("Treat checked = %d \n", j);
-			s = ft_strdup(nb_op(input[i], j, limit));
-			printf("nb op = %s\n", s);
+			limit = op_limit(s[i]);
+			j = treat_checked(s, i);
+			s = ft_strdup(nb_op(s[i], j, limit));
 			i += j;
 			j = 0;
 		}
 		i++;
 	}
+	free(s);
 	return (s);
 }
-*/

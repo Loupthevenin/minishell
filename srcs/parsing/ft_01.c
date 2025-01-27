@@ -6,74 +6,28 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 18:24:36 by kleung-t          #+#    #+#             */
-/*   Updated: 2025/01/23 19:36:51 by ltheveni         ###   ########.fr       */
-/*   Updated: 2025/01/23 17:56:01 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/27 17:22:43 by kleung-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../../includes/minishell.h"
 
-// returns 1 if identical
-int	cmp(const char *s1, const char *s2)
+int	if_op(const char *s)
 {
-	int	i;
-
-	i = 0;
-	while (s1[i])
-	{
-		if (s1[i] == s2[i])
-			i++;
-		else
-			return (0);
-	}
-	return (1);
+	if (!s || !*s)
+		return (0);
+	if (!ft_strncmp(s, "<<", 2) || !ft_strncmp(s, ">>", 2))
+		return (1);
+	if (*s == '<' || *s == '>')
+		return (1);
+	return (0);
 }
 
-int	cmp_char(char c1, char c2)
+int	ft_sp(char c)
 {
-	if (c1 == c2)
+	if ((c >= 7 && c <= 13) || c == 32 || c == 0)
 		return (1);
 	else
 		return (0);
-}
-
-// adds [s2] after [s1]
-char	*ft_join(char *s1, char *s2)
-{
-	char	*tmp;
-	int		i;
-	int		j;
-
-	j = (ft_strlen(s1) + ft_strlen(s2));
-	i = 0;
-	tmp = malloc(sizeof(char) * j + 2);
-	while (s1[i])
-	{
-		tmp[i] = s1[i];
-		i++;
-	}
-	tmp[i++] = ' ';
-	while (s2[j])
-	{
-		tmp[i + j] = s2[j];
-		j++;
-	}
-	tmp[i + j] = 0;
-	return (tmp);
-}
-
-// s1 in s2
-char	*ft_dup(char *s1, char *s2)
-{
-	int	i;
-
-	i = 0;
-	s2 = malloc(sizeof(char) * ft_strlen(s1) + 1);
-	while (s1[i])
-	{
-		s2[i] = s1[i];
-		i++;
-	}
-	s2[i] = 0;
-	return (s2);
 }

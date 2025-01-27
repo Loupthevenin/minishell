@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_id02.c                                       :+:      :+:    :+:   */
+/*   check_inp02.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 19:31:49 by kleung-t          #+#    #+#             */
-/*   Updated: 2025/01/25 19:37:46 by kleung-t         ###   ########.fr       */
+/*   Updated: 2025/01/27 17:41:07 by kleung-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-//	err_msg | print_op | op_right | op_left | op_slash
-
-/*
-
-//err msg list
-char	*err_msg(int i)
+static char	*err_msg(int i)
 {
 	char	*msg;
 
@@ -30,8 +25,7 @@ char	*err_msg(int i)
 	return (msg);
 }
 
-// extends op
-char	*print_op(char c, int i)
+static char	*print_op(char c, int i)
 {
 	int		j;
 	char	*p2;
@@ -50,7 +44,6 @@ char	*print_op(char c, int i)
 	return (p2);
 }
 
-// -> >
 char	*op_right_arrow(int i, char c, int index)
 {
 	char		*p1;
@@ -63,10 +56,11 @@ char	*op_right_arrow(int i, char c, int index)
 	else
 		p2 = ft_strdup(print_op(c, i));
 	msg = ft_strjoin(p1, p2);
+	free(p1);
+	free (p2);
 	return (msg);
 }
 
-// -> <
 char	*op_left_arrow(int i, char c, int index)
 {
 	char		*p1;
@@ -79,10 +73,11 @@ char	*op_left_arrow(int i, char c, int index)
 	else
 		p2 = ft_strdup(print_op(c, i));
 	msg = ft_strjoin(p1, p2);
+	free(p1);
+	free (p2);
 	return (msg);
 }
 
-// -> /
 char	*op_slash(int i, char c)
 {
 	char		*p1;
@@ -100,6 +95,7 @@ char	*op_slash(int i, char c)
 		p2 = ft_strdup(err_msg(2));
 		msg = ft_strjoin(p1, p2);
 	}
+	free(p1);
+	free (p2);
 	return (msg);
 }
-*/
