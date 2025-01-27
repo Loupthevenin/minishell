@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:02:48 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/27 17:45:08 by kleung-t         ###   ########.fr       */
+/*   Updated: 2025/01/27 17:47:15 by kleung-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,7 @@ t_cmd	*parse_input(const char *input, t_shell *shell)
 	t_cmd	*head;
 
 	head = NULL;
-	// A IMPLEMENTER CHECK TOUT LES CAS DU DEBUT DU TABLEAU XLSX;
-	/* check_input(input, shell); */
-	/* printf("input :%s\n", input); */
 	formatted = format_input(input, shell);
-	/* printf("format :%s\n", formatted); */
 	if (!formatted)
 		return (NULL);
 	with_spaces = add_spaces_on_operator(formatted);
@@ -59,12 +55,10 @@ t_cmd	*parse_input(const char *input, t_shell *shell)
 		return (NULL);
 	tmp = split_input(with_spaces);
 	free(with_spaces);
-	/* print_tab(tmp); */
 	if (!tmp)
 		return (NULL);
 	if (!loop_parse_input(tmp, &head))
 		return (NULL);
-	/* print_node(head); */
 	free_tab((void **)tmp, 0, 1);
 	return (head);
 }
