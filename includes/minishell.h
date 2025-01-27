@@ -6,10 +6,10 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 00:10:54 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/27 15:50:19 by ltheveni         ###   ########.fr       */
-/*   Updated: 2025/01/23 17:54:32 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/27 17:25:43 by kleung-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -93,20 +93,11 @@ void				rm_element_tab(char **tab, int index_remove);
 char				**ft_dup_array(char **args);
 
 // parsing
-void				check_input(const char *input, t_shell *shell);
+char				*check_input(const char *input, t_shell *shell);
 int					strings_size(const char *input, t_shell *shell);
 char				*format_input(const char *input, t_shell *shell);
 char				*add_spaces_on_operator(const char *input);
-int					cmp(const char *s1, const char *s2);
-int					cmp_char(char c1, char c2);
-char				*ft_join(char *s1, char *s2);
-char				*ft_dup(char *s1, char *s2);
-// char				**split_cmd(char **s, int j, t_cmd *cmd);
-// char				**set_args(char **s, t_cmd *cmd);
 int					if_op(const char *s);
-int					if_op_char(const char *s, int i);
-int					if_cmd(const char *s);
-int					if_sub_cmd(const char *s);
 int					ft_sp(char c);
 char				**split_input(const char *s);
 int					count_word_arg(const char *arg);
@@ -115,10 +106,9 @@ void				assign_operator(t_cmd **current_node, char **args,
 						int op_index);
 void				multiple_operator(t_cmd **current_node, int count);
 void				set_operator(t_cmd **new_node);
-char				**create_tab(const char *s, char **tab);
-int					len_tab(const char *s, int i);
-char				*fill_args(const char *s, int j, char *result);
-char				*mall_tab(const char *s, int i, char *result);
+char				*op_slash(int i, char c);
+char				*op_left_arrow(int i, char c, int index);
+char				*op_right_arrow(int i, char c, int index);
 
 // exec
 void				fork_processes(t_cmd *cmd, t_shell *shell, int *fd,

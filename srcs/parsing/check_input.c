@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 14:27:28 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/25 00:04:23 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/27 17:22:55 by kleung-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@
 // / : "minishell: /: Is a directory"
 // // : "minishell: //: Is a directory"
 // $ : "minishell: $: command not found" actuellement quit minishell
-void	check_input(const char *input, t_shell *shell)
+
+/*void	check_input(const char *input, t_shell *shell)
 {
 	(void)input;
 	(void)shell;
 }
+*/
