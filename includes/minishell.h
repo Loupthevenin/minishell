@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 00:10:54 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/27 17:48:10 by kleung-t         ###   ########.fr       */
+/*   Updated: 2025/01/27 22:20:32 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ void				rm_element_tab(char **tab, int index_remove);
 char				**ft_dup_array(char **args);
 
 // parsing
-char				*check_input(const char *input, t_shell *shell);
 int					strings_size(const char *input, t_shell *shell);
 char				*format_input(const char *input, t_shell *shell);
 char				*add_spaces_on_operator(const char *input);
