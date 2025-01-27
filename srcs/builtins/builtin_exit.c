@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 11:02:13 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/21 00:09:47 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/27 12:19:34 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,15 @@ static int	check_str(const char *s)
 	return (1);
 }
 
-static int	error_num_argument(char **args)
+static int	error_num_argument(char **args, int mode)
 {
 	ft_putstr_fd("minishell: exit: ", 2);
 	ft_putstr_fd(args[1], 2);
 	ft_putendl_fd(": numeric argument required", 2);
-	return (255);
+	if (mode)
+		return (2);
+	else
+		return (255);
 }
 
 static int	exit_status(char **args)
@@ -55,10 +58,10 @@ static int	exit_status(char **args)
 	if (args[1])
 	{
 		if (!check_str(args[1]))
-			return (error_num_argument(args));
+			return (error_num_argument(args, 1));
 		exit_code = ft_atoi_exit(args[1], &overflow);
 		if (overflow)
-			return (error_num_argument(args));
+			return (error_num_argument(args, 0));
 		if (exit_code > 255 || exit_code < 0)
 		{
 			exit_code %= 256;
