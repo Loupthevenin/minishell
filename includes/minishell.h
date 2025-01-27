@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 00:10:54 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/27 10:36:27 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/27 15:50:19 by ltheveni         ###   ########.fr       */
 /*   Updated: 2025/01/23 17:54:32 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -132,6 +132,7 @@ void				exec_builtins(t_shell *shell, t_cmd *cmd);
 
 // builtins
 int					is_builtins(t_cmd *cmd);
+int					is_parent_builtins(t_cmd *cmd);
 void				builtin_echo(t_shell *shell, t_cmd *cmd);
 void				builtin_cd(t_shell *shell, t_cmd *cmd);
 void				builtin_pwd(t_shell *shell, t_cmd *cmd);
