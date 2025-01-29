@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:39:41 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/27 16:46:32 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/29 15:41:32 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	process(t_cmd *cmd, t_shell *shell)
 	char	*cmd_path;
 	char	**envp;
 
+	if (!cmd->args[0])
+		return ;
 	envp = list_to_double_array(shell->env_list);
 	if (!envp)
 	{

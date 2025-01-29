@@ -6,62 +6,66 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:33:53 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/27 17:48:10 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/29 15:31:32 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static int	count_operator(char **args)
+void	add_redirect(t_cmd *cmd, char *file, int is_append, int is_input)
 {
-	int		i;
-	int		count;
-	char	*save;
+	t_redirects	*new_redir;
+	t_redirects	*temp;
 
-	i = 0;
-	count = 0;
-	save = NULL;
-	while (args[i])
+	new_redir = (t_redirects *)malloc(sizeof(t_redirects));
+	if (!new_redir)
+		return ;
+	new_redir->infile = NULL;
+	new_redir->outfile = NULL;
+	new_redir->is_append = is_append;
+	new_redir->is_here_doc = 0;
+	new_redir->delimiter_here_doc = NULL;
+	new_redir->next = NULL;
+	if (is_input)
+		new_redir->infile = file;
+	else
+		new_redir->outfile = file;
+	if (!cmd->redirects)
+		cmd->redirects = new_redir;
+	else
 	{
-		if (if_op(args[i]))
-		{
-			if (!save || !ft_strcmp(save, args[i]))
-				count++;
-			save = args[i];
-		}
-		i++;
+		temp = cmd->redirects;
+		while (temp->next)
+			temp = temp->next;
+		temp->next = new_redir;
 	}
-	return (count);
 }
 
 void	assign_operator(t_cmd **current_node, char **args, int op_index)
 {
 	if (!ft_strcmp(args[op_index], ">"))
-	{
-		(*current_node)->outfile = remove_s_quotes(args[op_index + 1]);
-	}
+		add_redirect((*current_node), remove_s_quotes(args[op_index + 1]), 0,
+				0);
 	else if (!ft_strcmp(args[op_index], "<"))
-	{
-		(*current_node)->infile = remove_s_quotes(args[op_index + 1]);
-	}
+		add_redirect((*current_node), remove_s_quotes(args[op_index + 1]), 0,
+				1);
 	else if (!ft_strcmp(args[op_index], ">>"))
-	{
-		(*current_node)->outfile = remove_s_quotes(args[op_index + 1]);
-		(*current_node)->is_append = 1;
-	}
+		add_redirect((*current_node), remove_s_quotes(args[op_index + 1]), 1,
+				0);
 	else if (!ft_strcmp(args[op_index], "<<"))
 	{
+		add_redirect((*current_node), NULL, 0, 0);
 		if (args[op_index + 1] && args[op_index + 1][0] == '"' && args[op_index
 			+ 1][1] == '\0')
-			(*current_node)->delimiter_here_doc = ft_strdup("");
+			(*current_node)->redirects->delimiter_here_doc = ft_strdup("");
 		else
-			(*current_node)->delimiter_here_doc = remove_s_quotes(args[op_index
+			(*current_node)->redirects->delimiter_here_doc = remove_s_quotes(args[op_index
 					+ 1]);
-		(*current_node)->is_here_doc = 1;
+		(*current_node)->redirects->is_here_doc = 1;
 	}
 }
 
-static void	one_operator(t_cmd **current_node)
+void	set_operator(t_cmd **current_node)
 {
 	char	**args;
 	int		i;
@@ -79,17 +83,4 @@ static void	one_operator(t_cmd **current_node)
 		else
 			i++;
 	}
-}
-
-void	set_operator(t_cmd **current_node)
-{
-	int	count;
-
-	count = count_operator((*current_node)->args);
-	if (count == 0)
-		return ;
-	if (count == 1)
-		one_operator(current_node);
-	else
-		multiple_operator(current_node, count);
 }

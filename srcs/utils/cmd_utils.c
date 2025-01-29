@@ -6,13 +6,12 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 15:05:14 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/25 10:26:44 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/29 15:32:25 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// ici on cree une node;
 t_cmd	*create_node(char **arg)
 {
 	t_cmd	*new_node;
@@ -21,16 +20,11 @@ t_cmd	*create_node(char **arg)
 	if (!new_node)
 		return (NULL);
 	new_node->args = arg;
-	new_node->infile = NULL;
-	new_node->outfile = NULL;
-	new_node->is_append = 0;
-	new_node->is_here_doc = 0;
-	new_node->delimiter_here_doc = NULL;
+	new_node->redirects = NULL;
 	new_node->next = NULL;
 	return (new_node);
 }
 
-// ici on ajoute la nouvelle node a la fin de celle en tete;
 void	append_node(t_cmd **head, t_cmd *new_node)
 {
 	t_cmd	*temp;
@@ -48,7 +42,6 @@ void	append_node(t_cmd **head, t_cmd *new_node)
 	temp->next = new_node;
 }
 
-// strlen de la linked list cmd;
 int	get_command_count(t_cmd *head)
 {
 	t_cmd	*current;
@@ -64,7 +57,24 @@ int	get_command_count(t_cmd *head)
 	return (i);
 }
 
-// ici on free les nodes;
+void	free_redirects(t_redirects *head)
+{
+	t_redirects	*temp;
+
+	while (head)
+	{
+		temp = head;
+		head = head->next;
+		if (temp->infile)
+			free(temp->infile);
+		if (temp->outfile)
+			free(temp->outfile);
+		if (temp->delimiter_here_doc)
+			free(temp->delimiter_here_doc);
+		free(temp);
+	}
+}
+
 void	free_cmd_node(t_cmd *head)
 {
 	t_cmd	*temp;
@@ -84,12 +94,8 @@ void	free_cmd_node(t_cmd *head)
 			}
 			free(temp->args);
 		}
-		if (temp->infile)
-			free(temp->infile);
-		if (temp->outfile)
-			free(temp->outfile);
-		if (temp->delimiter_here_doc)
-			free(temp->delimiter_here_doc);
+		if (temp->redirects)
+			free_redirects(temp->redirects);
 		free(temp);
 	}
 }
