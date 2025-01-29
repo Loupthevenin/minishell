@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:06:28 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/27 15:50:49 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:04:16 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,19 @@ static void	exec_cmd_loop(t_cmd *cmd, t_shell *shell, int *fd, int pipe_in)
 	while (current)
 	{
 		setup_fd(shell, cmd, fd);
-		if (is_builtins(current) && (!current->next && pipe_in == -1))
+		if (check_file_permission(current, shell))
 		{
-			if (is_parent_builtins(current))
+			if (is_builtins(current) && (!current->next && pipe_in == -1))
 			{
-				exec_builtins(shell, cmd);
-				current = current->next;
-				continue ;
+				if (is_parent_builtins(current))
+				{
+					exec_builtins(shell, cmd);
+					current = current->next;
+					continue ;
+				}
 			}
+			fork_processes(current, shell, fd, pipe_in);
 		}
-		fork_processes(current, shell, fd, pipe_in);
 		pipe_in = fd[0];
 		if (current->next)
 			close(fd[1]);

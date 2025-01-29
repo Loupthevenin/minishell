@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 08:33:36 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/26 16:15:49 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/29 15:26:06 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	handle_break(size_t len_delimiter, size_t len_line, char *line,
 	return (1);
 }
 
-static int	break_here_doc(t_cmd *cmd, char *line)
+static int	break_here_doc(t_redirects *current, char *line)
 {
 	char	*delimiter;
 	size_t	len_delimiter;
@@ -42,7 +42,7 @@ static int	break_here_doc(t_cmd *cmd, char *line)
 
 	if (!line)
 		return (1);
-	delimiter = cmd->delimiter_here_doc;
+	delimiter = current->delimiter_here_doc;
 	len_delimiter = ft_strlen(delimiter);
 	len_line = ft_strlen(line);
 	if (!handle_break(len_delimiter, len_line, line, delimiter))
@@ -50,7 +50,7 @@ static int	break_here_doc(t_cmd *cmd, char *line)
 	return (0);
 }
 
-void	handle_here_doc(t_cmd *cmd, t_shell *shell)
+void	handle_here_doc(t_cmd *cmd, t_shell *shell, t_redirects *current)
 {
 	char	*line;
 	char	*tmp_file;
@@ -68,11 +68,11 @@ void	handle_here_doc(t_cmd *cmd, t_shell *shell)
 	while (1)
 	{
 		line = readline("> ");
-		if (break_here_doc(cmd, line))
+		if (break_here_doc(current, line))
 			break ;
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
 	close(fd);
-	cmd->infile = ft_strdup(tmp_file);
+	current->infile = ft_strdup(tmp_file);
 }

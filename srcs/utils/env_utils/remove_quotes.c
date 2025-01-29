@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 15:56:18 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/27 17:55:36 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:28:22 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,34 @@
 char	*remove_s_quotes(char *s)
 {
 	char	*result;
-	int		len_s;
+	size_t	len_s;
+	int		i;
+	int		j;
 
 	if (!s)
 		return (NULL);
-	len_s = ft_strlen(s);
-	if (len_s < 2 || (s[0] != '"' && s[0] != '\'') || s[len_s - 1] != s[0])
+	len_s = 0;
+	i = 0;
+	j = 0;
+	while (s[i])
+	{
+		if (s[i] != '"' && s[i] != '\'')
+			len_s++;
+		i++;
+	}
+	if (len_s == ft_strlen(s))
 		return (ft_strdup(s));
-	result = (char *)malloc(sizeof(char) * (len_s - 1));
+	result = (char *)malloc(sizeof(char) * (len_s + 1));
 	if (!result)
 		return (NULL);
-	ft_strlcpy(result, s + 1, len_s - 1);
-	result[len_s - 2] = '\0';
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] != '"' && s[i] != '\'')
+			result[j++] = s[i];
+		i++;
+	}
+	result[j] = '\0';
 	return (result);
 }
 

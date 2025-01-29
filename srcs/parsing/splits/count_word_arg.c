@@ -18,7 +18,7 @@ static void	handle_loop_arg(const char *arg, int *i, int *count, t_split *state)
 	(*count)++;
 	(*i)++;
 	while (arg[*i] && ((state->in_single_quote && arg[*i] != '\'')
-			|| (state->in_double_quote && arg[*i] != '"')))
+				|| (state->in_double_quote && arg[*i] != '"')))
 		(*i)++;
 	if (arg[*i] == '\'' || arg[*i] == '"')
 		is_quote(arg[*i], state);
@@ -37,7 +37,7 @@ int	count_word_arg(const char *arg)
 	while (arg[i])
 	{
 		if ((arg[i] == '\'' || arg[i] == '"') && !state.in_single_quote
-			&& !state.in_double_quote)
+				&& !state.in_double_quote)
 			handle_loop_arg(arg, &i, &count, &state);
 		else if (ft_sp(arg[i]))
 		{
