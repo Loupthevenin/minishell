@@ -6,32 +6,20 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 15:56:18 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/29 16:28:22 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/31 15:29:16 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-char	*remove_s_quotes(char *s)
+static char	*handle_remove_s_quotes(char *s, int len_s)
 {
-	char	*result;
-	size_t	len_s;
 	int		i;
 	int		j;
+	char	*result;
 
-	if (!s)
-		return (NULL);
-	len_s = 0;
 	i = 0;
 	j = 0;
-	while (s[i])
-	{
-		if (s[i] != '"' && s[i] != '\'')
-			len_s++;
-		i++;
-	}
-	if (len_s == ft_strlen(s))
-		return (ft_strdup(s));
 	result = (char *)malloc(sizeof(char) * (len_s + 1));
 	if (!result)
 		return (NULL);
@@ -44,6 +32,26 @@ char	*remove_s_quotes(char *s)
 	}
 	result[j] = '\0';
 	return (result);
+}
+
+char	*rm_quotes(char *s)
+{
+	size_t	len_s;
+	int		i;
+
+	if (!s)
+		return (NULL);
+	len_s = 0;
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] != '"' && s[i] != '\'')
+			len_s++;
+		i++;
+	}
+	if (len_s == ft_strlen(s))
+		return (ft_strdup(s));
+	return (handle_remove_s_quotes(s, len_s));
 }
 
 static int	check_quotes(char *arg, int *in_single_quote, int *in_double_quote,

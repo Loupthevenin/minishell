@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 00:10:54 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/29 15:33:13 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/31 15:29:45 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void					update_env_var(t_env *env, char *key, char *new_value);
 void					update_shlvl(t_shell *shell);
 t_env					*add_default_env_vars(void);
 void					remove_quotes(t_cmd **cmd);
-char					*remove_s_quotes(char *s);
+char					*rm_quotes(char *s);
 
 // utils parsing
 int						ft_nbrlen(int n);
@@ -112,6 +112,7 @@ char					*op_left_arrow(int i, char c, int index);
 char					*op_right_arrow(int i, char c, int index);
 
 // exec
+int						open_file(char *file, int flags);
 int						check_file_permission(t_cmd *cmd, t_shell *shell);
 void					fork_processes(t_cmd *cmd, t_shell *shell, int *fd,
 							int pipe_in);
@@ -119,7 +120,14 @@ void					handle_here_doc(t_cmd *cmd, t_shell *shell,
 							t_redirects *current);
 void					redirect_input(t_cmd *cmd, t_shell *shell, int pipe_in);
 void					redirect_output(t_cmd *cmd, t_shell *shell);
-void					process(t_cmd *cmd, t_shell *shell);
+void					process(t_cmd *cmd, t_shell *shell, int pipe_in,
+							int *fd);
+void					handle_error_file(t_cmd *cmd, t_shell *shell,
+							char **envp);
+void					handle_error_execve(t_cmd *cmd, t_shell *shell,
+							char **envp, int exit_error);
+void					handle_error_process(t_cmd *cmd, t_shell *shell,
+							char **envp, int exit_error);
 char					*get_cmd_path(const char *cmd, char **envp);
 void					exec_builtins(t_shell *shell, t_cmd *cmd);
 

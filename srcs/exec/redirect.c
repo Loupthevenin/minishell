@@ -6,13 +6,13 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 11:29:21 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/29 15:34:06 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/31 12:43:34 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	open_file(char *file, int flags)
+int	open_file(char *file, int flags)
 {
 	int	fd;
 
@@ -39,6 +39,8 @@ static void	handle_redirect_in(t_cmd *cmd, t_shell *shell, t_redirects *current,
 	close(infile);
 	if (current->is_here_doc)
 		close(pipe_in);
+	else if (pipe_in != -1)
+		close(pipe_in);
 }
 
 void	redirect_input(t_cmd *cmd, t_shell *shell, int pipe_in)
@@ -63,10 +65,10 @@ static void	handle_redirect_out(t_cmd *cmd, t_shell *shell,
 
 	if (current->is_append)
 		outfile = open_file(current->outfile,
-							O_WRONLY | O_CREAT | O_APPEND);
+				O_WRONLY | O_CREAT | O_APPEND);
 	else
 		outfile = open_file(current->outfile,
-							O_WRONLY | O_CREAT | O_TRUNC);
+				O_WRONLY | O_CREAT | O_TRUNC);
 	if (outfile == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
