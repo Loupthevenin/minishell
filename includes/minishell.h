@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 00:10:54 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/31 15:29:45 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/31 16:47:27 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void					redirect_input(t_cmd *cmd, t_shell *shell, int pipe_in);
 void					redirect_output(t_cmd *cmd, t_shell *shell);
 void					process(t_cmd *cmd, t_shell *shell, int pipe_in,
 							int *fd);
+void					wait_for_child(t_shell *shell);
 void					handle_error_file(t_cmd *cmd, t_shell *shell,
 							char **envp);
 void					handle_error_execve(t_cmd *cmd, t_shell *shell,
