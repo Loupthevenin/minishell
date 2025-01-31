@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:06:28 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/31 15:24:46 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/31 16:47:13 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	setup_fd(t_shell *shell, t_cmd *current, int *fd)
 	}
 }
 
-static void	wait_for_child(t_shell *shell)
+void	wait_for_child(t_shell *shell)
 {
 	int	status;
 	int	signal;
@@ -97,5 +97,4 @@ void	exec_cmd(t_cmd *cmd, t_shell *shell)
 
 	pipe_in = -1;
 	exec_cmd_loop(cmd, shell, fd, pipe_in);
-	wait_for_child(shell);
 }
