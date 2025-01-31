@@ -48,7 +48,7 @@ static int	extract_word(const char *s, char **result, t_split *state, int i)
 		if (!result[state->index])
 			return (0);
 		ft_strlcpy(result[state->index], &s[state->start], i - state->start
-				+ 1);
+			+ 1);
 		state->index++;
 	}
 	return (1);

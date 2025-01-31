@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:33:53 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/29 15:31:32 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/31 15:30:34 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,21 @@ void	add_redirect(t_cmd *cmd, char *file, int is_append, int is_input)
 	}
 }
 
-void	assign_operator(t_cmd **current_node, char **args, int op_index)
+void	assign_operator(t_cmd **current_node, char **args, int i)
 {
-	if (!ft_strcmp(args[op_index], ">"))
-		add_redirect((*current_node), remove_s_quotes(args[op_index + 1]), 0,
-				0);
-	else if (!ft_strcmp(args[op_index], "<"))
-		add_redirect((*current_node), remove_s_quotes(args[op_index + 1]), 0,
-				1);
-	else if (!ft_strcmp(args[op_index], ">>"))
-		add_redirect((*current_node), remove_s_quotes(args[op_index + 1]), 1,
-				0);
-	else if (!ft_strcmp(args[op_index], "<<"))
+	if (!ft_strcmp(args[i], ">"))
+		add_redirect((*current_node), rm_quotes(args[i + 1]), 0, 0);
+	else if (!ft_strcmp(args[i], "<"))
+		add_redirect((*current_node), rm_quotes(args[i + 1]), 0, 1);
+	else if (!ft_strcmp(args[i], ">>"))
+		add_redirect((*current_node), rm_quotes(args[i + 1]), 1, 0);
+	else if (!ft_strcmp(args[i], "<<"))
 	{
 		add_redirect((*current_node), NULL, 0, 0);
-		if (args[op_index + 1] && args[op_index + 1][0] == '"' && args[op_index
-			+ 1][1] == '\0')
+		if (args[i + 1] && args[i + 1][0] == '"' && args[i + 1][1] == '\0')
 			(*current_node)->redirects->delimiter_here_doc = ft_strdup("");
 		else
-			(*current_node)->redirects->delimiter_here_doc = remove_s_quotes(args[op_index
+			(*current_node)->redirects->delimiter_here_doc = rm_quotes(args[i
 					+ 1]);
 		(*current_node)->redirects->is_here_doc = 1;
 	}

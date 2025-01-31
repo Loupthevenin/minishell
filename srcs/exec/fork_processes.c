@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:38:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/29 16:03:57 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/31 15:08:17 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,15 @@ static void	handle_fork_error(t_cmd *cmd, t_shell *shell)
 	exit(EXIT_FAILURE);
 }
 
-static void	cleanup_fork(t_cmd *cmd, t_shell *shell)
+static void	close_pipe(int pipe_in, int *fd)
+{
+	if (pipe_in != -1)
+		close(pipe_in);
+	if (fd[1] != -1)
+		close(fd[1]);
+}
+
+static void	cleanup_fork(t_cmd *cmd, t_shell *shell, int *fd, int pipe_in)
 {
 	t_redirects	*current;
 
@@ -32,18 +40,13 @@ static void	cleanup_fork(t_cmd *cmd, t_shell *shell)
 			unlink(cmd->redirects->infile);
 		current = current->next;
 	}
+	close_pipe(pipe_in, fd);
+	if (fd[0] != -1)
+		close(fd[0]);
 	free_cmd_node(cmd);
 	free_shell(shell);
 	shell->last_exit = EXIT_SUCCESS;
 	exit(EXIT_SUCCESS);
-}
-
-static void	close_pipe(int pipe_in, int *fd)
-{
-	if (pipe_in != -1)
-		close(pipe_in);
-	if (fd[1] != -1)
-		close(fd[1]);
 }
 
 static void	redirect_pipes(int pipe, int std)
@@ -71,10 +74,13 @@ void	fork_processes(t_cmd *cmd, t_shell *shell, int *fd, int pipe_in)
 		if (is_builtins(cmd))
 			exec_builtins(shell, cmd);
 		else
-			process(cmd, shell);
-		cleanup_fork(cmd, shell);
+			process(cmd, shell, pipe_in, fd);
+		cleanup_fork(cmd, shell, fd, pipe_in);
+	}
+	else if (shell->pid > 0)
+	{
+		close_pipe(pipe_in, fd);
 	}
 	else if (shell->pid == -1)
 		handle_fork_error(cmd, shell);
-	close_pipe(pipe_in, fd);
 }
