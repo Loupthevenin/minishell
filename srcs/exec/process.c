@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:39:41 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/31 17:17:59 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/01/31 18:09:41 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,8 @@ void	process(t_cmd *cmd, t_shell *shell, int pipe_in, int *fd)
 	if (!cmd_path)
 		handle_error_file(cmd, shell, envp);
 	exit_error = check_permission_cmd(cmd_path, pipe_in, fd);
-	if (exit_error == 126)
-		handle_error_execve(cmd, shell, envp, 126);
-	else if (exit_error == 127)
-		handle_error_execve(cmd, shell, envp, 127);
+	if (exit_error != 0)
+		handle_error_execve(cmd, shell, envp, exit_error);
 	execve(cmd_path, cmd->args, envp);
 	free(cmd_path);
 	if (errno == EACCES || errno == ENOENT)
