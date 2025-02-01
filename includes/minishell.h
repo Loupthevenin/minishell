@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 00:10:54 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/31 16:47:27 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/02/01 21:02:02 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,9 @@ int						open_file(char *file, int flags);
 int						check_file_permission(t_cmd *cmd, t_shell *shell);
 void					fork_processes(t_cmd *cmd, t_shell *shell, int *fd,
 							int pipe_in);
+int						strings_size_here_doc(const char *input,
+							t_shell *shell);
+char					*expand_var(const char *line, t_shell *shell);
 void					handle_here_doc(t_cmd *cmd, t_shell *shell,
 							t_redirects *current);
 void					redirect_input(t_cmd *cmd, t_shell *shell, int pipe_in);

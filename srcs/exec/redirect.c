@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 11:29:21 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/31 12:43:34 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/02/01 21:24:01 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,7 @@ static void	handle_redirect_in(t_cmd *cmd, t_shell *shell, t_redirects *current,
 	if (dup2(infile, STDIN_FILENO) == -1)
 		dup2_exit("infile");
 	close(infile);
-	if (current->is_here_doc)
-		close(pipe_in);
-	else if (pipe_in != -1)
+	if (pipe_in != -1)
 		close(pipe_in);
 }
 
@@ -50,8 +48,6 @@ void	redirect_input(t_cmd *cmd, t_shell *shell, int pipe_in)
 	current = cmd->redirects;
 	while (current)
 	{
-		if (current->is_here_doc)
-			handle_here_doc(cmd, shell, current);
 		if (current->infile)
 			handle_redirect_in(cmd, shell, current, pipe_in);
 		current = current->next;

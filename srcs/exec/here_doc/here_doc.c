@@ -6,11 +6,11 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 08:33:36 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/29 15:26:06 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/02/01 23:31:37 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 static int	handle_break(size_t len_delimiter, size_t len_line, char *line,
 		char *delimiter)
@@ -50,11 +50,46 @@ static int	break_here_doc(t_redirects *current, char *line)
 	return (0);
 }
 
+static int	is_quoted_delimiter(char *delimiter)
+{
+	if (!delimiter)
+		return (0);
+	if (delimiter[0] == '\'' && delimiter[ft_strlen(delimiter) - 1] == '\'')
+		return (1);
+	if (delimiter[0] == '"' && delimiter[ft_strlen(delimiter) - 1] == '"')
+		return (1);
+	return (0);
+}
+
+static void	handle_loop_here_doc(t_shell *shell, int fd, int expand,
+		t_redirects *current)
+{
+	char	*expand_line;
+	char	*line;
+
+	while (1)
+	{
+		line = readline("> ");
+		if (break_here_doc(current, line))
+			break ;
+		if (expand)
+		{
+			expand_line = expand_var(line, shell);
+			ft_putendl_fd(expand_line, fd);
+			free(expand_line);
+		}
+		else
+			ft_putendl_fd(line, fd);
+		free(line);
+	}
+}
+
 void	handle_here_doc(t_cmd *cmd, t_shell *shell, t_redirects *current)
 {
-	char	*line;
 	char	*tmp_file;
 	int		fd;
+	int		expand;
+	char	*clean_delimiter;
 
 	tmp_file = "/tmp/.here_doc_tmp";
 	fd = open(tmp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -65,14 +100,14 @@ void	handle_here_doc(t_cmd *cmd, t_shell *shell, t_redirects *current)
 		free_shell(shell);
 		exit(EXIT_FAILURE);
 	}
-	while (1)
+	expand = !is_quoted_delimiter(current->delimiter_here_doc);
+	clean_delimiter = rm_quotes(current->delimiter_here_doc);
+	if (clean_delimiter && clean_delimiter != current->delimiter_here_doc)
 	{
-		line = readline("> ");
-		if (break_here_doc(current, line))
-			break ;
-		ft_putendl_fd(line, fd);
-		free(line);
+		free(current->delimiter_here_doc);
+		current->delimiter_here_doc = clean_delimiter;
 	}
+	handle_loop_here_doc(shell, fd, expand, current);
 	close(fd);
 	current->infile = ft_strdup(tmp_file);
 }
