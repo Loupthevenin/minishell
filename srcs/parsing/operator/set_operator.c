@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:33:53 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/31 15:30:34 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/02/01 21:04:30 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	assign_operator(t_cmd **current_node, char **args, int i)
 		if (args[i + 1] && args[i + 1][0] == '"' && args[i + 1][1] == '\0')
 			(*current_node)->redirects->delimiter_here_doc = ft_strdup("");
 		else
-			(*current_node)->redirects->delimiter_here_doc = rm_quotes(args[i
+			(*current_node)->redirects->delimiter_here_doc = ft_strdup(args[i
 					+ 1]);
 		(*current_node)->redirects->is_here_doc = 1;
 	}

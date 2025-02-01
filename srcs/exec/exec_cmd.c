@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:06:28 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/31 16:47:13 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/02/01 23:05:58 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,23 @@ static void	exec_cmd_loop(t_cmd *cmd, t_shell *shell, int *fd, int pipe_in)
 
 void	exec_cmd(t_cmd *cmd, t_shell *shell)
 {
-	int	fd[2];
-	int	pipe_in;
+	int			fd[2];
+	int			pipe_in;
+	t_cmd		*current;
+	t_redirects	*cur_redir;
 
 	pipe_in = -1;
+	current = cmd;
+	while (current)
+	{
+		cur_redir = current->redirects;
+		while (cur_redir)
+		{
+			if (cur_redir->is_here_doc)
+				handle_here_doc(current, shell, cur_redir);
+			cur_redir = cur_redir->next;
+		}
+		current = current->next;
+	}
 	exec_cmd_loop(cmd, shell, fd, pipe_in);
 }
