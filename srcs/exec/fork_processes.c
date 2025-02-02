@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:38:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/31 17:17:35 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/02/02 12:29:27 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,10 @@ static void	redirect_pipes(int pipe, int std)
 
 void	fork_processes(t_cmd *cmd, t_shell *shell, int *fd, int pipe_in)
 {
-	shell->pid = fork();
-	if (shell->pid == 0)
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == 0)
 	{
 		setup_signals(0);
 		if (pipe_in != -1)
@@ -77,11 +79,11 @@ void	fork_processes(t_cmd *cmd, t_shell *shell, int *fd, int pipe_in)
 			process(cmd, shell, pipe_in, fd);
 		cleanup_fork(cmd, shell, fd, pipe_in);
 	}
-	else if (shell->pid > 0)
+	else if (pid > 0)
 	{
 		close_pipe(pipe_in, fd);
-		wait_for_child(shell);
+		shell->pid = pid;
 	}
-	else if (shell->pid == -1)
+	else if (pid == -1)
 		handle_fork_error(cmd, shell);
 }

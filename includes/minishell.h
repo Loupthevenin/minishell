@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 00:10:54 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/02/01 21:02:02 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/02/02 15:54:09 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdlib.h>
+# include <sys/ioctl.h>
 # include <sys/wait.h>
 
 typedef struct s_redirects
@@ -121,6 +122,9 @@ int						strings_size_here_doc(const char *input,
 char					*expand_var(const char *line, t_shell *shell);
 void					handle_here_doc(t_cmd *cmd, t_shell *shell,
 							t_redirects *current);
+int						break_here_doc(t_redirects *current, char *line);
+void					handle_signal_here_doc(int sig);
+int						check_here_docs(t_cmd *cmd, t_shell *shell);
 void					redirect_input(t_cmd *cmd, t_shell *shell, int pipe_in);
 void					redirect_output(t_cmd *cmd, t_shell *shell);
 void					process(t_cmd *cmd, t_shell *shell, int pipe_in,
