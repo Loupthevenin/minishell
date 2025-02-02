@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:06:28 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/02/02 11:23:22 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/02/02 15:38:52 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,29 @@ static void	setup_fd(t_shell *shell, t_cmd *current, int *fd)
 
 void	wait_for_child(t_shell *shell)
 {
-	int	status;
-	int	signal;
+	int		status;
+	int		signal;
+	pid_t	pid;
 
-	while (waitpid(-1, &status, 0) > 0)
+	pid = waitpid(shell->pid, &status, 0);
+	if (pid > 0)
 	{
-		if (WIFEXITED(status))
-			shell->last_exit = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
+		if (pid == shell->pid)
 		{
-			signal = WTERMSIG(status);
-			shell->last_exit = 128 + signal;
-			if (signal == SIGQUIT)
-				ft_putstr_fd("Quit: 3\n", 2);
+			if (WIFEXITED(status))
+				shell->last_exit = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+			{
+				signal = WTERMSIG(status);
+				shell->last_exit = 128 + signal;
+				if (signal == SIGQUIT)
+					ft_putstr_fd("Quit: 3\n", 2);
+			}
 		}
+		pid = waitpid(-1, &status, 0);
 	}
+	if (shell->last_exit != 130)
+		g_signal = 0;
 }
 
 static void	close_pipes(int *pipe_in, int *fd, t_cmd *current)
@@ -92,23 +100,12 @@ static void	exec_cmd_loop(t_cmd *cmd, t_shell *shell, int *fd, int pipe_in)
 
 void	exec_cmd(t_cmd *cmd, t_shell *shell)
 {
-	int			fd[2];
-	int			pipe_in;
-	t_cmd		*current;
-	t_redirects	*cur_redir;
+	int	fd[2];
+	int	pipe_in;
 
 	pipe_in = -1;
-	current = cmd;
-	while (current)
-	{
-		cur_redir = current->redirects;
-		while (cur_redir)
-		{
-			if (cur_redir->is_here_doc)
-				handle_here_doc(current, shell, cur_redir);
-			cur_redir = cur_redir->next;
-		}
-		current = current->next;
-	}
+	if (!check_here_docs(cmd, shell))
+		return ;
 	exec_cmd_loop(cmd, shell, fd, pipe_in);
+	wait_for_child(shell);
 }

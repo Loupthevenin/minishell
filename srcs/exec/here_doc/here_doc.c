@@ -6,49 +6,11 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 08:33:36 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/02/01 23:31:37 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/02/02 15:52:08 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
-
-static int	handle_break(size_t len_delimiter, size_t len_line, char *line,
-		char *delimiter)
-{
-	if (len_delimiter == 0)
-	{
-		if (len_line == 0)
-		{
-			free(line);
-			return (0);
-		}
-	}
-	else
-	{
-		if (len_line == len_delimiter && !ft_strcmp(line, delimiter))
-		{
-			free(line);
-			return (0);
-		}
-	}
-	return (1);
-}
-
-static int	break_here_doc(t_redirects *current, char *line)
-{
-	char	*delimiter;
-	size_t	len_delimiter;
-	size_t	len_line;
-
-	if (!line)
-		return (1);
-	delimiter = current->delimiter_here_doc;
-	len_delimiter = ft_strlen(delimiter);
-	len_line = ft_strlen(line);
-	if (!handle_break(len_delimiter, len_line, line, delimiter))
-		return (1);
-	return (0);
-}
 
 static int	is_quoted_delimiter(char *delimiter)
 {
@@ -67,11 +29,17 @@ static void	handle_loop_here_doc(t_shell *shell, int fd, int expand,
 	char	*expand_line;
 	char	*line;
 
+	signal(SIGINT, handle_signal_here_doc);
 	while (1)
 	{
 		line = readline("> ");
 		if (break_here_doc(current, line))
 			break ;
+		if (g_signal == SIGINT)
+		{
+			free(line);
+			break ;
+		}
 		if (expand)
 		{
 			expand_line = expand_var(line, shell);
@@ -84,14 +52,10 @@ static void	handle_loop_here_doc(t_shell *shell, int fd, int expand,
 	}
 }
 
-void	handle_here_doc(t_cmd *cmd, t_shell *shell, t_redirects *current)
+static int	open_here_doc(char *tmp_file, t_cmd *cmd, t_shell *shell)
 {
-	char	*tmp_file;
-	int		fd;
-	int		expand;
-	char	*clean_delimiter;
+	int	fd;
 
-	tmp_file = "/tmp/.here_doc_tmp";
 	fd = open(tmp_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
@@ -100,6 +64,18 @@ void	handle_here_doc(t_cmd *cmd, t_shell *shell, t_redirects *current)
 		free_shell(shell);
 		exit(EXIT_FAILURE);
 	}
+	return (fd);
+}
+
+void	handle_here_doc(t_cmd *cmd, t_shell *shell, t_redirects *current)
+{
+	char	*tmp_file;
+	int		fd;
+	int		expand;
+	char	*clean_delimiter;
+
+	tmp_file = "/tmp/.here_doc_tmp";
+	fd = open_here_doc(tmp_file, cmd, shell);
 	expand = !is_quoted_delimiter(current->delimiter_here_doc);
 	clean_delimiter = rm_quotes(current->delimiter_here_doc);
 	if (clean_delimiter && clean_delimiter != current->delimiter_here_doc)
@@ -109,5 +85,11 @@ void	handle_here_doc(t_cmd *cmd, t_shell *shell, t_redirects *current)
 	}
 	handle_loop_here_doc(shell, fd, expand, current);
 	close(fd);
+	if (g_signal == SIGINT)
+	{
+		unlink(tmp_file);
+		setup_signals(1);
+		return ;
+	}
 	current->infile = ft_strdup(tmp_file);
 }
