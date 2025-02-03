@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:06:28 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/02/02 15:38:52 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/02/02 21:02:07 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ void	exec_cmd(t_cmd *cmd, t_shell *shell)
 	int	fd[2];
 	int	pipe_in;
 
+	if (!cmd)
+		return ;
 	pipe_in = -1;
 	if (!check_here_docs(cmd, shell))
 		return ;
