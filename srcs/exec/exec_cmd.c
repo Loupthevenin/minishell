@@ -6,96 +6,62 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:06:28 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/02/02 21:02:07 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/02/03 11:36:03 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	setup_fd(t_shell *shell, t_cmd *current, int *fd)
+static void	handle_check_file(int *pipe_in, int *fd, t_cmd **current,
+		int *has_error)
 {
-	if (current->next)
-	{
-		if (pipe(fd) == -1)
-		{
-			perror("pipe failed");
-			if (fd[0] != -1)
-				close(fd[0]);
-			if (fd[1] != -1)
-				close(fd[1]);
-			free_cmd_node(current);
-			free_shell(shell);
-			shell->last_exit = EXIT_FAILURE;
-			exit(EXIT_FAILURE);
-		}
-	}
-	else
-	{
-		fd[0] = -1;
-		fd[1] = -1;
-	}
+	close_pipes(pipe_in, fd, *current);
+	*current = (*current)->next;
+	*has_error = 1;
 }
 
-void	wait_for_child(t_shell *shell)
+static void	exec_fork_close(t_cmd **current, t_shell *shell, int *fd,
+		int *pipe_in)
 {
-	int		status;
-	int		signal;
-	pid_t	pid;
-
-	pid = waitpid(shell->pid, &status, 0);
-	if (pid > 0)
-	{
-		if (pid == shell->pid)
-		{
-			if (WIFEXITED(status))
-				shell->last_exit = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-			{
-				signal = WTERMSIG(status);
-				shell->last_exit = 128 + signal;
-				if (signal == SIGQUIT)
-					ft_putstr_fd("Quit: 3\n", 2);
-			}
-		}
-		pid = waitpid(-1, &status, 0);
-	}
-	if (shell->last_exit != 130)
-		g_signal = 0;
+	fork_processes(*current, shell, fd, *pipe_in);
+	close_pipes(pipe_in, fd, *current);
+	*current = (*current)->next;
 }
 
-static void	close_pipes(int *pipe_in, int *fd, t_cmd *current)
+static void	close_and_wait(int has_error, int *fd, t_shell *shell)
 {
-	if (*pipe_in != -1)
-		close(*pipe_in);
-	*pipe_in = fd[0];
-	if (current->next && fd[1] != -1)
-		close(fd[1]);
+	if (fd[0] != -1)
+		close(fd[0]);
+	if (!has_error)
+		wait_for_child(shell);
 }
 
 static void	exec_cmd_loop(t_cmd *cmd, t_shell *shell, int *fd, int pipe_in)
 {
 	t_cmd	*current;
+	int		has_error;
 
 	current = cmd;
+	has_error = 0;
 	while (current)
 	{
 		setup_fd(shell, cmd, fd);
-		if (check_file_permission(current, shell))
+		if (!check_file_permission(current, shell))
 		{
-			if (is_builtins(current) && (!current->next && pipe_in == -1)
-				&& is_parent_builtins(cmd))
-			{
-				exec_builtins(shell, cmd);
-				current = current->next;
-				continue ;
-			}
-			fork_processes(current, shell, fd, pipe_in);
+			handle_check_file(&pipe_in, fd, &current, &has_error);
+			continue ;
 		}
-		close_pipes(&pipe_in, fd, current);
-		current = current->next;
+		has_error = 0;
+		if (is_builtins(current) && (!current->next && pipe_in == -1)
+			&& is_parent_builtins(cmd))
+		{
+			exec_builtins(shell, cmd);
+			current = current->next;
+			continue ;
+		}
+		exec_fork_close(&current, shell, fd, &pipe_in);
 	}
-	if (fd[0] != -1)
-		close(fd[0]);
+	close_and_wait(has_error, fd, shell);
 }
 
 void	exec_cmd(t_cmd *cmd, t_shell *shell)
@@ -109,5 +75,4 @@ void	exec_cmd(t_cmd *cmd, t_shell *shell)
 	if (!check_here_docs(cmd, shell))
 		return ;
 	exec_cmd_loop(cmd, shell, fd, pipe_in);
-	wait_for_child(shell);
 }
