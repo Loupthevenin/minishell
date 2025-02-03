@@ -6,7 +6,7 @@
 /*   By: kleung-t <kleung-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 00:10:54 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/02/02 15:54:09 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/02/03 11:12:42 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,8 @@ void					handle_here_doc(t_cmd *cmd, t_shell *shell,
 							t_redirects *current);
 int						break_here_doc(t_redirects *current, char *line);
 void					handle_signal_here_doc(int sig);
+void					close_pipes(int *pipe_in, int *fd, t_cmd *current);
+void					setup_fd(t_shell *shell, t_cmd *current, int *fd);
 int						check_here_docs(t_cmd *cmd, t_shell *shell);
 void					redirect_input(t_cmd *cmd, t_shell *shell, int pipe_in);
 void					redirect_output(t_cmd *cmd, t_shell *shell);

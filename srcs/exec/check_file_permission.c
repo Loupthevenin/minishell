@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:10:27 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/31 16:04:07 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/02/03 10:06:42 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	check_access_in(t_shell *shell, char *file)
 	if (access(file, R_OK) != 0)
 	{
 		ft_putstr_fd("minishell: ", 2);
-		ft_putendl_fd(file, 2);
+		ft_putstr_fd(file, 2);
 		ft_putendl_fd(": Permission denied", 2);
 		shell->last_exit = EXIT_FAILURE;
 		return (0);
