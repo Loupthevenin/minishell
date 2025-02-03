@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:10:27 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/02/03 10:06:42 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:19:00 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ static int	check_permission_out(t_shell *shell, t_redirects *redir)
 		shell->last_exit = 1;
 		return (0);
 	}
+	close(file);
 	return (1);
 }
 
