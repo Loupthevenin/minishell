@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:38:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/02/02 12:29:27 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/02/03 09:17:09 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,34 @@ static void	cleanup_fork(t_cmd *cmd, t_shell *shell, int *fd, int pipe_in)
 	exit(EXIT_SUCCESS);
 }
 
-static void	redirect_pipes(int pipe, int std)
+static void	handle_fork_processes(t_cmd *cmd, t_shell *shell, int *fd,
+		int pipe_in)
 {
-	if (pipe != -1)
+	setup_signals(0);
+	if (pipe_in != -1)
 	{
-		if (dup2(pipe, std) == -1)
+		if (dup2(pipe_in, STDIN_FILENO) == -1)
 			dup2_exit("dup2 (redirect)");
-		close(pipe);
+		close(pipe_in);
 	}
+	if (cmd->next)
+	{
+		if (fd[1] != -1)
+		{
+			if (dup2(fd[1], STDOUT_FILENO) == -1)
+				dup2_exit("dup2 (redirect)");
+			close(fd[1]);
+		}
+	}
+	redirect_input(cmd, shell, -1);
+	redirect_output(cmd, shell);
+	if (fd[0] != -1)
+		close(fd[0]);
+	if (is_builtins(cmd))
+		exec_builtins(shell, cmd);
+	else if (cmd->args[0])
+		process(cmd, shell, pipe_in, fd);
+	cleanup_fork(cmd, shell, fd, pipe_in);
 }
 
 void	fork_processes(t_cmd *cmd, t_shell *shell, int *fd, int pipe_in)
@@ -65,20 +85,7 @@ void	fork_processes(t_cmd *cmd, t_shell *shell, int *fd, int pipe_in)
 
 	pid = fork();
 	if (pid == 0)
-	{
-		setup_signals(0);
-		if (pipe_in != -1)
-			redirect_pipes(pipe_in, STDIN_FILENO);
-		if (cmd->next)
-			redirect_pipes(fd[1], STDOUT_FILENO);
-		redirect_input(cmd, shell, -1);
-		redirect_output(cmd, shell);
-		if (is_builtins(cmd))
-			exec_builtins(shell, cmd);
-		else if (cmd->args[0])
-			process(cmd, shell, pipe_in, fd);
-		cleanup_fork(cmd, shell, fd, pipe_in);
-	}
+		handle_fork_processes(cmd, shell, fd, pipe_in);
 	else if (pid > 0)
 	{
 		close_pipe(pipe_in, fd);

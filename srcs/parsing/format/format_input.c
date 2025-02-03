@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 08:43:01 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/01/26 15:41:18 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/02/02 20:55:30 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,10 @@ char	*format_input(const char *input, t_shell *shell)
 
 	size = strings_size(input, shell);
 	if (size == -1)
+	{
+		shell->last_exit = 2;
 		return (NULL);
+	}
 	result = (char *)malloc(sizeof(char) * (size + 1));
 	if (!result)
 		return (NULL);
