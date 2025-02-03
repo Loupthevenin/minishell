@@ -6,7 +6,7 @@
 /*   By: ltheveni <ltheveni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 14:06:28 by ltheveni          #+#    #+#             */
-/*   Updated: 2025/02/03 11:36:03 by ltheveni         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:08:53 by ltheveni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static void	close_and_wait(int has_error, int *fd, t_shell *shell)
 {
 	if (fd[0] != -1)
 		close(fd[0]);
+	if (fd[1] != -1)
+		close(fd[1]);
 	if (!has_error)
 		wait_for_child(shell);
 }
